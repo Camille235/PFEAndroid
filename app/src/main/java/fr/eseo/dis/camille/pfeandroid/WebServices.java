@@ -31,6 +31,8 @@ import javax.net.ssl.TrustManagerFactory;
 import errors.LoginError;
 import fr.eseo.dis.camille.pfeandroid.bean.Login;
 
+import static fr.eseo.dis.camille.pfeandroid.R.raw.chain;
+
 /**
  * Created by Arthur on 20/12/2017.
  */
@@ -49,15 +51,9 @@ public class WebServices {
             // (could be from a resource or ByteArrayInputStream or ...)
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
-            InputStream caInputChain = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("chain",
-                            "raw", context.getPackageName()));
-            InputStream caInputInter = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("inter",
-                            "raw", context.getPackageName()));
-            InputStream caInputRoot = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("root",
-                            "raw", context.getPackageName()));
+            InputStream caInputChain = context.getResources().openRawResource(R.raw.chain);
+            InputStream caInputInter = context.getResources().openRawResource(R.raw.inter);
+            InputStream caInputRoot = context.getResources().openRawResource(R.raw.root);
             //InputStream caInputChain = new BufferedInputStream(new FileInputStream("chain.crt"));
             //InputStream caInputInter = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/inter.crt"));
             //InputStream caInputRoot = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/root.crt"));
