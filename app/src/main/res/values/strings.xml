@@ -15,7 +15,6 @@
         completions."
     </string>
 
-    <string name="app_name">NavigationDrawerTuto</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="items">
