@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     String usernameString;
     String passwordString;
     Intent intent;
+    String message = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 Login log = webServices.login(MainActivity.this, usernameString, passwordString);;
                 return log;
             } catch (LoginError e) {
-                Log.e("MainActivity", e.getMessage(), e);
+                message = e.getMessage();
+                //Log.e("MainActivity", e.getMessage(), e);
             }
 
             return null;
@@ -77,8 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Login login) {
-            intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+            if (login == null) {
+                messageError.setText(message);
+                messageError.setVisibility(View.VISIBLE);
+            }
+
+            if("".equals(message)){
+                intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
         }
 
     }
