@@ -96,6 +96,7 @@ public class WebServices {
 
 
             URL url = new URL(URI);
+            System.out.println(URI);
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setSSLSocketFactory(contextSSL.getSocketFactory());
             conn.setRequestMethod("GET");
@@ -146,7 +147,8 @@ public class WebServices {
 
     public static Login login(Context context, String username, String password) throws LoginError{
 
-        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&user="+username+"&pass="+password);
+
 
         ObjectMapper mapper = new ObjectMapper();
 
