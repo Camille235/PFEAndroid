@@ -6,7 +6,7 @@ package fr.eseo.dis.camille.pfeandroid.bean;
 
 public class Project {
 
-    private int id;
+    private int projectId;
     private String title;
     private String descrip;
     private boolean poster;
@@ -14,12 +14,12 @@ public class Project {
     private int confid;
     private Student[] students;
 
-    public int getId() {
-        return id;
+    public int getProjectId() {
+        return projectId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProjectId(int id) {
+        this.projectId = id;
     }
 
     public String getTitle() {
