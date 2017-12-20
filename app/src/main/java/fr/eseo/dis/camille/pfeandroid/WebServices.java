@@ -1,7 +1,7 @@
 package fr.eseo.dis.camille.pfeandroid;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.net.wifi.hotspot2.pps.Credential;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,8 +9,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -29,7 +27,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Login;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
 /**
  * Created by Arthur on 20/12/2017.
@@ -49,15 +48,9 @@ public class WebServices {
             // (could be from a resource or ByteArrayInputStream or ...)
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
-            InputStream caInputChain = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("chain",
-                            "raw", context.getPackageName()));
-            InputStream caInputInter = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("inter",
-                            "raw", context.getPackageName()));
-            InputStream caInputRoot = context.getResources().openRawResource(
-                    context.getResources().getIdentifier("root",
-                            "raw", context.getPackageName()));
+            InputStream caInputChain = context.getResources().openRawResource(R.raw.chain);
+            InputStream caInputInter = context.getResources().openRawResource(R.raw.inter);
+            InputStream caInputRoot = context.getResources().openRawResource(R.raw.root);
             //InputStream caInputChain = new BufferedInputStream(new FileInputStream("chain.crt"));
             //InputStream caInputInter = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/inter.crt"));
             //InputStream caInputRoot = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/root.crt"));
@@ -100,6 +93,7 @@ public class WebServices {
 
 
             URL url = new URL(URI);
+            System.out.println(URI);
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setSSLSocketFactory(contextSSL.getSocketFactory());
             conn.setRequestMethod("GET");
@@ -150,7 +144,8 @@ public class WebServices {
 
     public static Login login(Context context, String username, String password) throws LoginError{
 
-        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&user="+username+"&pass="+password);
+
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -175,6 +170,32 @@ public class WebServices {
         }
 
         return log;
+    }
+
+    public static ListProjects listAllProjects(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIPRJ&user="+username+"&token="+token);
+
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> map = new HashMap<>();
+        try {
+            map = mapper.readValue(json, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            map.put("error", e.getMessage());
+        }
+
+        if(map.containsKey("error")) {
+            throw new Error(map.get("error"));
+        }
+
+        ListProjects list = null;
+        try {
+            list = mapper.readValue(json, ListProjects.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
 }

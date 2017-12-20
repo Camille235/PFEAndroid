@@ -3,10 +3,9 @@ package fr.eseo.dis.camille.pfeandroid;
 import android.test.suitebuilder.annotation.MediumTest;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Login;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
 
 /**
