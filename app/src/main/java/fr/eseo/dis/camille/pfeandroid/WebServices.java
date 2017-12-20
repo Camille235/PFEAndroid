@@ -145,24 +145,9 @@ public class WebServices {
     public static Login login(Context context, String username, String password) throws LoginError{
 
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&user="+username+"&pass="+password);
-
-
+        errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
-
-        HashMap<String,String> map = new HashMap<>();
-        try {
-            map = mapper.readValue(json, HashMap.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            map.put("error", e.getMessage());
-        }
-
-        if(map.containsKey("error")) {
-            throw new LoginError(map.get("error"));
-        }
-
         Login log = null;
-
         try {
             log = mapper.readValue(json, Login.class);
         } catch (IOException e) {
@@ -174,7 +159,33 @@ public class WebServices {
 
     public static ListProjects listAllProjects(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIPRJ&user="+username+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        ListProjects list = null;
+        try {
+            list = mapper.readValue(json, ListProjects.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        return list;
+    }
+
+    public static ListProjects listMyProjects(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYPRJ&user="+username+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        ListProjects list = null;
+        try {
+            list = mapper.readValue(json, ListProjects.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    private static void errorHandling(String json) throws Error{
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String,String> map = new HashMap<>();
         try {
@@ -187,15 +198,6 @@ public class WebServices {
         if(map.containsKey("error")) {
             throw new Error(map.get("error"));
         }
-
-        ListProjects list = null;
-        try {
-            list = mapper.readValue(json, ListProjects.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return list;
     }
 
 }
