@@ -1,13 +1,32 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
 import fr.eseo.dis.camille.pfeandroid.bean.Login;
@@ -18,15 +37,77 @@ import fr.eseo.dis.camille.pfeandroid.bean.Login;
 
 public class WebServices {
 
-    private static String retrieve(String URI) {
-        StringBuilder output = new StringBuilder();
+    private static String retrieve(Context context, String URI) {
+        String output = null;
         try {
-            URL url = new URL(URI);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            //URL url = new URL(URI);
+            //HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            //conn.setRequestMethod("GET");
+           // conn.setRequestProperty("Accept", "application/json");
 
-            if (conn.getResponseCode() != 200) {
+            // Load CAs from an InputStream
+            // (could be from a resource or ByteArrayInputStream or ...)
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+            InputStream caInputChain = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("chain",
+                            "raw", context.getPackageName()));
+            InputStream caInputInter = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("inter",
+                            "raw", context.getPackageName()));
+            InputStream caInputRoot = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("root",
+                            "raw", context.getPackageName()));
+            //InputStream caInputChain = new BufferedInputStream(new FileInputStream("chain.crt"));
+            //InputStream caInputInter = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/inter.crt"));
+            //InputStream caInputRoot = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/root.crt"));
+
+            Certificate caChain;
+            Certificate caInter;
+            Certificate caRoot;
+
+            try {
+                caChain = cf.generateCertificate(caInputChain);
+                caInter = cf.generateCertificate(caInputInter);
+                caRoot = cf.generateCertificate(caInputRoot);
+                System.out.println("caChain=" + ((X509Certificate) caChain).getSubjectDN());
+                System.out.println("caInter=" + ((X509Certificate) caInter).getSubjectDN());
+                System.out.println("caRoot=" + ((X509Certificate) caRoot).getSubjectDN());
+            } finally {
+                caInputChain.close();
+                caInputInter.close();
+                caInputRoot.close();
+            }
+
+            // Create a KeyStore containing our trusted CAs
+            String keyStoreType = KeyStore.getDefaultType();
+            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+            keyStore.load(null, null);
+            keyStore.setCertificateEntry("caChain", caChain);
+            keyStore.setCertificateEntry("caInter", caInter);
+            keyStore.setCertificateEntry("caRoot", caRoot);
+
+            // Create a TrustManager that trusts the CAs in our KeyStore
+            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+            tmf.init(keyStore);
+
+            // Create an SSLContext that uses our TrustManager
+            SSLContext contextSSL = SSLContext.getInstance("TLS");
+            contextSSL.init(null, tmf.getTrustManagers(), null);
+
+            //conn.setSSLSocketFactory(contextSSL.getSocketFactory());
+
+
+            URL url = new URL(URI);
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setSSLSocketFactory(contextSSL.getSocketFactory());
+            conn.setRequestMethod("GET");
+            // read the response
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            output = convertStreamToString(in);
+
+            /*if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode());
             }
@@ -37,18 +118,39 @@ public class WebServices {
             while ((test = br.readLine()) != null){
                 output.append(test);
             }
-            conn.disconnect();
+            conn.disconnect();*/
         }
-        catch (IOException e){
+        catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e){
             e.printStackTrace();
         }
-        return output.substring(0);
+        return output;
 
     }
 
-    public static Login login(String username, String password) throws LoginError{
+    private static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
 
-        String json = retrieve("https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+
+    public static Login login(Context context, String username, String password) throws LoginError{
+
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
 
         ObjectMapper mapper = new ObjectMapper();
 
