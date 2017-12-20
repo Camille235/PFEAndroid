@@ -2,8 +2,10 @@ package fr.eseo.dis.camille.pfeandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     TextView messageError;
     WebServices webServices;
 
+    String usernameString;
+    String passwordString;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
         homeActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                String usernameString = username.getText().toString();
-                String passwordString = password.getText().toString();
-                String message = "";
+
+                usernameString = username.getText().toString();
+                passwordString = password.getText().toString();
+                new HttpRequestTask().execute();
+                /*String message = "";
                 try {
                     Login login = webServices.login(MainActivity.this, usernameString, passwordString);
                 } catch (LoginError e) {
@@ -49,13 +55,33 @@ public class MainActivity extends AppCompatActivity {
                 if("".equals(message)){
                     intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
-                }
+                }*/
             }
 
         });
 
     }
 
+    private class HttpRequestTask extends AsyncTask<Void, Void, Login> {
+        @Override
+        protected Login doInBackground(Void... params) {
+            try {
+                Login log = webServices.login(MainActivity.this, usernameString, passwordString);;
+                return log;
+            } catch (LoginError e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
 
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Login login) {
+            intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
+    }
 
 }
+
