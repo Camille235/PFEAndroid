@@ -18,11 +18,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import errors.LoginError;
 import fr.eseo.dis.camille.pfeandroid.R;
 import fr.eseo.dis.camille.pfeandroid.bean.Project;
+import fr.eseo.dis.camille.pfeandroid.bean.Student;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
@@ -35,12 +38,15 @@ public class ListProjectActivity extends AppCompatActivity {
 
     WebServices webServices;
     String message = "";
+
+    public static final String PROJECT_EXTRA = "project_extra";
     public static int NEW_CARD_COUNTER;
 
     private ListProjectAdaptater listProjectAdapter;
 
     private List<Project> listProject;
     RecyclerView recycler;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,7 @@ public class ListProjectActivity extends AppCompatActivity {
         @Override
         protected ListProjects doInBackground(Void... params) {
             try {
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+                pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                 ListProjects listProjects = webServices.listAllProjects(ListProjectActivity.this, pref.getString("username", null),  pref.getString("token", null));
                 return listProjects;
             } catch (LoginError e) {
@@ -87,11 +93,28 @@ public class ListProjectActivity extends AppCompatActivity {
         }
 
     }
-    /* public void clickItem(Project project) {
+
+    public void clickItem(Project project) {
         Intent intent = new Intent(this, ProjectDetailsActivity.class);
-        intent.putExtra(PROJECT_EXTRA, project);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("projectTitle", project.getTitle());
+        editor.putString("projectDescription", project.getDescrip());
+        editor.putString("projectSupervisor", project.getSupervisor().getForename() + " " + project.getSupervisor().getSurname());
+        editor.putInt("projetConfidentiality", project.getConfid());
+        editor.putBoolean("projetPoster", project.isPoster());
+
+        Student[] students = project.getStudents();
+
+        Set<String> studentName = new HashSet<>();
+
+        for(int i = 0; i < students.length; i++){
+            studentName.add(students[i].getForename() + " " + students[i].getSurname());
+        }
+        editor.putStringSet("studentName", studentName);
+
+        editor.commit(); // commit changes
         startActivity(intent);
-    }*/
+    }
 
 
 

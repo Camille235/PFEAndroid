@@ -1,14 +1,21 @@
 package fr.eseo.dis.camille.pfeandroid.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Arthur on 20/12/2017.
  */
 
-class Student {
+public class Student{
+
+
+
 
     String userId;
     String forename;
     String surname;
+
 
     public String getUserId() {
         return userId;
@@ -33,4 +40,6 @@ class Student {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+
 }

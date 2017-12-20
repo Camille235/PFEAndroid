@@ -71,7 +71,7 @@ public class ListProjectAdaptater extends
             @Override
             public void onClick(View v) {
                 Log.d("ListProjectAdaptater","Item 'clicked'");
-                //activity.clickItem(project);
+                activity.clickItem(project);
             }
         });
         if (positionsExpanded.contains(position)) {
