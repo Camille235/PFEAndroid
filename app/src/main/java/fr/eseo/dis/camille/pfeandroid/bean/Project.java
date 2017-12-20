@@ -8,24 +8,11 @@ public class Project {
 
     private int id;
     private String title;
-    private String description;
-    private int confidentiality;
-    private String confidentialityDescription;
-
-    public Project(){
-        this.id = -1;
-        this.title = "";
-        this.description = "";
-        this.confidentiality = -1;
-        this.confidentialityDescription = "";
-    }
-    public Project(int id, String title, String description, int confidentiality, String confidentialityDescription){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.confidentiality = confidentiality;
-        this.confidentialityDescription = "";
-    }
+    private String descrip;
+    private boolean poster;
+    private Supervisor supervisor;
+    private int confid;
+    private Student[] students;
 
     public int getId() {
         return id;
@@ -43,27 +30,43 @@ public class Project {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescrip() {
+        return descrip;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescrip(String descrip) {
+        this.descrip = descrip;
     }
 
-    public int getConfidentiality() {
-        return confidentiality;
+    public boolean isPoster() {
+        return poster;
     }
 
-    public void setConfidentiality(int confidentiality) {
-        this.confidentiality = confidentiality;
+    public void setPoster(boolean poster) {
+        this.poster = poster;
     }
 
-    public String getConfidentialityDescription() {
-        return confidentialityDescription;
+    public Supervisor getSupervisor() {
+        return supervisor;
     }
 
-    public void setConfidentialityDescription(String confidentialityDescription) {
-        this.confidentialityDescription = confidentialityDescription;
+    public void setSupervisor(Supervisor supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public int getConfid() {
+        return confid;
+    }
+
+    public void setConfid(int confid) {
+        this.confid = confid;
+    }
+
+    public Student[] getStudents() {
+        return students;
+    }
+
+    public void setStudents(Student[] students) {
+        this.students = students;
     }
 }

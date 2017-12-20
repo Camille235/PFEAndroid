@@ -1,7 +1,7 @@
 package fr.eseo.dis.camille.pfeandroid;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.net.wifi.hotspot2.pps.Credential;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,8 +9,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -29,9 +27,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Login;
-
-import static fr.eseo.dis.camille.pfeandroid.R.raw.chain;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
 /**
  * Created by Arthur on 20/12/2017.
@@ -173,6 +170,32 @@ public class WebServices {
         }
 
         return log;
+    }
+
+    public static ListProjects listAllProjects(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIPRJ&user="+username+"&token="+token);
+
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> map = new HashMap<>();
+        try {
+            map = mapper.readValue(json, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            map.put("error", e.getMessage());
+        }
+
+        if(map.containsKey("error")) {
+            throw new Error(map.get("error"));
+        }
+
+        ListProjects list = null;
+        try {
+            list = mapper.readValue(json, ListProjects.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
 }
