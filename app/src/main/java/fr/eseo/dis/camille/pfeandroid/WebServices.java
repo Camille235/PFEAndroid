@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,18 +17,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -47,12 +38,12 @@ import fr.eseo.dis.camille.pfeandroid.bean.Login;
 public class WebServices {
 
     private static String retrieve(Context context, String URI) {
-        StringBuilder output = new StringBuilder();
+        String output = null;
         try {
-            URL url = new URL(URI);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            //URL url = new URL(URI);
+            //HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            //conn.setRequestMethod("GET");
+           // conn.setRequestProperty("Accept", "application/json");
 
             // Load CAs from an InputStream
             // (could be from a resource or ByteArrayInputStream or ...)
@@ -105,12 +96,18 @@ public class WebServices {
             SSLContext contextSSL = SSLContext.getInstance("TLS");
             contextSSL.init(null, tmf.getTrustManagers(), null);
 
+            //conn.setSSLSocketFactory(contextSSL.getSocketFactory());
+
+
+            URL url = new URL(URI);
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setSSLSocketFactory(contextSSL.getSocketFactory());
+            conn.setRequestMethod("GET");
+            // read the response
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            output = convertStreamToString(in);
 
-
-
-
-            if (conn.getResponseCode() != 200) {
+            /*if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode());
             }
@@ -121,13 +118,34 @@ public class WebServices {
             while ((test = br.readLine()) != null){
                 output.append(test);
             }
-            conn.disconnect();
+            conn.disconnect();*/
         }
         catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e){
             e.printStackTrace();
         }
-        return output.substring(0);
+        return output;
 
+    }
+
+    private static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
     }
 
     public static Login login(Context context, String username, String password) throws LoginError{
