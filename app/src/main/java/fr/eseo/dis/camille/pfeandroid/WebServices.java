@@ -1,11 +1,15 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -42,7 +46,7 @@ import fr.eseo.dis.camille.pfeandroid.bean.Login;
 
 public class WebServices {
 
-    private static String retrieve(String URI) {
+    private static String retrieve(Context context, String URI) {
         StringBuilder output = new StringBuilder();
         try {
             URL url = new URL(URI);
@@ -53,10 +57,19 @@ public class WebServices {
             // Load CAs from an InputStream
             // (could be from a resource or ByteArrayInputStream or ...)
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            // From https://www.washington.edu/itconnect/security/ca/load-der.crt
-            InputStream caInputChain = new BufferedInputStream(new FileInputStream("drawable://chain.crt"));
-            InputStream caInputInter = new BufferedInputStream(new FileInputStream("drawable://inter.crt"));
-            InputStream caInputRoot = new BufferedInputStream(new FileInputStream("drawable://root.crt"));
+
+            InputStream caInputChain = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("chain",
+                            "raw", context.getPackageName()));
+            InputStream caInputInter = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("inter",
+                            "raw", context.getPackageName()));
+            InputStream caInputRoot = context.getResources().openRawResource(
+                    context.getResources().getIdentifier("root",
+                            "raw", context.getPackageName()));
+            //InputStream caInputChain = new BufferedInputStream(new FileInputStream("chain.crt"));
+            //InputStream caInputInter = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/inter.crt"));
+            //InputStream caInputRoot = new BufferedInputStream(new FileInputStream("android.resource://fr.eseo.dis.camille/raw/root.crt"));
 
             Certificate caChain;
             Certificate caInter;
@@ -89,10 +102,10 @@ public class WebServices {
             tmf.init(keyStore);
 
             // Create an SSLContext that uses our TrustManager
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, tmf.getTrustManagers(), null);
+            SSLContext contextSSL = SSLContext.getInstance("TLS");
+            contextSSL.init(null, tmf.getTrustManagers(), null);
 
-            conn.setSSLSocketFactory(context.getSocketFactory());
+            conn.setSSLSocketFactory(contextSSL.getSocketFactory());
 
 
 
@@ -117,9 +130,9 @@ public class WebServices {
 
     }
 
-    public static Login login(String username, String password) throws LoginError{
+    public static Login login(Context context, String username, String password) throws LoginError{
 
-        String json = retrieve("https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&username="+username+"&pass="+password);
 
         ObjectMapper mapper = new ObjectMapper();
 
