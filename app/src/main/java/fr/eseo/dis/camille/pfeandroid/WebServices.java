@@ -27,6 +27,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
@@ -178,6 +179,34 @@ public class WebServices {
         ListProjects list = null;
         try {
             list = mapper.readValue(json, ListProjects.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static ListJuries listAllJuries(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIJUR&user="+username+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        ListJuries list = null;
+        try {
+            list = mapper.readValue(json, ListJuries.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static ListJuries listMyJuries(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYJUR&user="+username+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        ListJuries list = null;
+        try {
+            list = mapper.readValue(json, ListJuries.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
