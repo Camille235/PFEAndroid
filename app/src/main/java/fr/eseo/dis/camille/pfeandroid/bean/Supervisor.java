@@ -5,35 +5,23 @@ package fr.eseo.dis.camille.pfeandroid.bean;
  */
 
 public class Supervisor {
-    private int idProject;
-    private int idSupervisor;
 
-    public Supervisor() {
-        this.idProject = -1;
-        this.idSupervisor = -1;
+    private String forename;
+    private String surname;
+
+    public String getForename() {
+        return forename;
     }
 
-    public Supervisor(int idProject, int idSupervisor) {
-        this.idProject = idProject;
-        this.idSupervisor = idSupervisor;
+    public void setForename(String forename) {
+        this.forename = forename;
     }
 
-
-
-    public int getIdProject() {
-
-        return idProject;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setIdProject(int idProject) {
-        this.idProject = idProject;
-    }
-
-    public int getIdSupervisor() {
-        return idSupervisor;
-    }
-
-    public void setIdSupervisor(int idSupervisor) {
-        this.idSupervisor = idSupervisor;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

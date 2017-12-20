@@ -27,6 +27,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.JuryInfo;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
@@ -212,6 +213,20 @@ public class WebServices {
         }
 
         return list;
+    }
+
+    public static JuryInfo juryinfo(Context context, String username, String token, String juryId){
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=JYINF&user="+username+"&jury="+juryId+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        JuryInfo jury = null;
+        try {
+            jury = mapper.readValue(json, JuryInfo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return jury;
     }
 
     private static void errorHandling(String json) throws Error{
