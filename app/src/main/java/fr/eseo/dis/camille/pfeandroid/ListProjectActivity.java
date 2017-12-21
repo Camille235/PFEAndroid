@@ -44,14 +44,18 @@ public class ListProjectActivity extends AppCompatActivity {
 
     private ListProjectAdaptater listProjectAdapter;
 
-    private List<Project> listProject;
     RecyclerView recycler;
     SharedPreferences pref;
+
+    String listProjectStyle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_project);
+        Intent intent = getIntent();
+        listProjectStyle = intent.getStringExtra("listProjectStyle");
+
         NEW_CARD_COUNTER = 3;
         recycler = (RecyclerView) findViewById(R.id.cardList);
         recycler.setHasFixedSize(true);
@@ -71,7 +75,13 @@ public class ListProjectActivity extends AppCompatActivity {
         protected ListProjects doInBackground(Void... params) {
             try {
                 pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                ListProjects listProjects = webServices.listAllProjects(ListProjectActivity.this, pref.getString("username", null),  pref.getString("token", null));
+                ListProjects listProjects = new ListProjects();
+                if("all".equals(listProjectStyle)) {
+                    listProjects = webServices.listAllProjects(ListProjectActivity.this, pref.getString("username", null), pref.getString("token", null));
+                }else if("my".equals(listProjectStyle)){
+                    listProjects = webServices.listMyProjects(ListProjectActivity.this, pref.getString("username", null), pref.getString("token", null));
+                }
+
                 return listProjects;
             } catch (LoginError e) {
                 message = e.getMessage();
@@ -100,8 +110,8 @@ public class ListProjectActivity extends AppCompatActivity {
         editor.putString("projectTitle", project.getTitle());
         editor.putString("projectDescription", project.getDescrip());
         editor.putString("projectSupervisor", project.getSupervisor().getForename() + " " + project.getSupervisor().getSurname());
-        editor.putInt("projetConfidentiality", project.getConfid());
-        editor.putBoolean("projetPoster", project.isPoster());
+        editor.putInt("projectConfidentiality", project.getConfid());
+        editor.putBoolean("projectPoster", project.isPoster());
 
         Student[] students = project.getStudents();
 

@@ -25,12 +25,24 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
-        final Button listProjectActivity = (Button) findViewById(R.id.button1);
+        final Button listProjectActivity = (Button) findViewById(R.id.button_all_projects);
+        final Button listMyProjectActivity = (Button) findViewById(R.id.button_my_projects);
 
         listProjectActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ListProjectActivity.class);
+                intent.putExtra("listProjectStyle", "all");
+                startActivity(intent);
+            }
+
+        });
+
+        listMyProjectActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ListProjectActivity.class);
+                intent.putExtra("listProjectStyle", "my");
                 startActivity(intent);
             }
 
