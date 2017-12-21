@@ -2,7 +2,9 @@ package fr.eseo.dis.camille.pfeandroid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import fr.eseo.dis.camille.pfeandroid.bean.Role;
 import fr.eseo.dis.camille.pfeandroid.bean.Student;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
 
+import static android.R.attr.y;
 import static android.R.id.message;
 import static fr.eseo.dis.camille.pfeandroid.ListProjectActivity.PROJECT_EXTRA;
 
@@ -39,8 +43,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private TextView supervisor;
     private TextView description;
 
-
-    private ProjectStudentsAdaptater projectStudentsAdaptater;
 
     private Button btnDetails;
 
@@ -73,16 +75,16 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
         });*/
 
-        Set<String> studentName = pref.getStringSet("studentName", null);
+        Set<String> studentNameSet = pref.getStringSet("studentName", null);
+        List<String> studentName = new ArrayList<>(studentNameSet);
 
-        RecyclerView recycler = (RecyclerView) findViewById(R.id.project_details_students);
-        recycler.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.setLayoutManager(llm);
-        projectStudentsAdaptater = new ProjectStudentsAdaptater(this);
-
-        projectStudentsAdaptater.setStudentName(new ArrayList<>(studentName));
+        LinearLayout linear = (LinearLayout) findViewById(R.id.project_details_students);
+        for (int i = 0; i < studentName.size(); i++) {
+            TextView spaceText = new TextView(this);
+            spaceText.setText(studentName.get(i));
+            spaceText.setTextColor(ContextCompat.getColor(this, R.color.darkGrey));
+            linear.addView(spaceText);
+        }
 
     }
 

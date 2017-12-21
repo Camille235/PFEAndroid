@@ -64,11 +64,12 @@
                     android:textSize="18sp"
                     android:text="Etudiants:"/>
 
-                <android.support.v7.widget.RecyclerView
+                <LinearLayout
                     android:id="@+id/project_details_students"
                     android:layout_width="match_parent"
                     android:background="@color/lightGrey"
-                    android:layout_height="100dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
                 <TextView
                     android:id="@+id/project_details_description_label"
                     android:layout_width="match_parent"
