@@ -1,19 +1,19 @@
 package fr.eseo.dis.camille.pfeandroid;
 
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+        import android.support.v7.widget.CardView;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.List;
 
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
-import fr.eseo.dis.camille.pfeandroid.bean.Supervisor;
+        import fr.eseo.dis.camille.pfeandroid.bean.Project;
+        import fr.eseo.dis.camille.pfeandroid.bean.Supervisor;
 
 /**
  * Created by camil on 20/12/2017.
@@ -44,12 +44,12 @@ public class ListProjectAdaptater extends
 
     @Override
     public ListProjectAdaptater.ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View filmView = LayoutInflater.from(parent.getContext())
+        View projectView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_project_card, parent, false);
         Log.d("ListProjectAdaptater","onCreateViewHolder()");
-        CardView filmCardView = (CardView)filmView;
-        filmCardView.setCardElevation(ListProjectActivity.NEW_CARD_COUNTER);
-        return new ProjectViewHolder(filmView);
+        CardView projectCardView = (CardView)projectView;
+        projectCardView.setCardElevation(ListProjectActivity.NEW_CARD_COUNTER);
+        return new ProjectViewHolder(projectView);
     }
 
     @Override

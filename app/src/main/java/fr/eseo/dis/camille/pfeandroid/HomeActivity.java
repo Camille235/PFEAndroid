@@ -27,6 +27,8 @@ public class HomeActivity extends AppCompatActivity {
 
         final Button listProjectActivity = (Button) findViewById(R.id.button_all_projects);
         final Button listMyProjectActivity = (Button) findViewById(R.id.button_my_projects);
+        final Button listJuryActivity = (Button) findViewById(R.id.button_all_juries);
+        final Button listMyJuryActivity = (Button) findViewById(R.id.button_my_juries);
 
         listProjectActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +45,26 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ListProjectActivity.class);
                 intent.putExtra("listProjectStyle", "my");
+                startActivity(intent);
+            }
+
+        });
+
+        listJuryActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ListJuryActivity.class);
+                intent.putExtra("listJuryStyle", "all");
+                startActivity(intent);
+            }
+
+        });
+
+        listMyJuryActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ListJuryActivity.class);
+                intent.putExtra("listJuryStyle", "my");
                 startActivity(intent);
             }
 

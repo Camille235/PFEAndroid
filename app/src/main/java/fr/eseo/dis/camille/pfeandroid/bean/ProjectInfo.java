@@ -4,7 +4,7 @@ package fr.eseo.dis.camille.pfeandroid.bean;
  * Created by Arthur on 20/12/2017.
  */
 
-class ProjectInfo {
+public class ProjectInfo {
 
     private int projectId;
     private String title;
