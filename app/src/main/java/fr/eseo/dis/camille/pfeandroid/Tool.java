@@ -18,9 +18,10 @@ public class Tool {
         return json;
     }
 
-    public static Object unparse(String s, JavaType j) throws IOException {
+    //JuryInfo ji = new ObjectMapper().readvalue(string, JuryInfo.class);
+    /*public static Object unparse(String s, JavaType j) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Object o = mapper.readValue(s,j);
         return o;
-    }
+    }*/
 }
