@@ -1,6 +1,4 @@
-package fr.eseo.dis.camille.pfeandroid.webServiceBean;
-
-import fr.eseo.dis.camille.pfeandroid.bean.Jury;
+package fr.eseo.dis.camille.pfeandroid.dto.juries;
 
 /**
  * Created by Arthur on 20/12/2017.

@@ -3,38 +3,35 @@ package fr.eseo.dis.camille.pfeandroid;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.wifi.hotspot2.pps.Credential;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-
-import java.io.InputStream;
-import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.JuryInfo;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.NoteInfo;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.JuryInfo;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.ListJuries;
+import fr.eseo.dis.camille.pfeandroid.dto.projects.ListProjects;
+import fr.eseo.dis.camille.pfeandroid.dto.login.Login;
+import fr.eseo.dis.camille.pfeandroid.dto.note.NoteInfo;
 
 /**
  * Created by Arthur on 20/12/2017.
@@ -318,6 +315,43 @@ public class WebServices {
         }
 
         return note;
+    }
+
+    public static void newNote(Context context, String username, String token, String proj, String student, String note) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
+                "q=NEWNT&user="+username+"&proj="+proj+"&student="+student+"&note="+note+"&token="+token);
+        errorHandling(json);
+    }
+
+
+    public static HashMap<String, Object> porte(Context context, String username, String token, String seed) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
+                "q=PORTE&user="+username+"&seed="+seed+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, Object> result = null;
+        try {
+            result = mapper.readValue(json, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static HashMap<String, Object> porte(Context context, String username, String token) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
+                "q=PORTE&user="+username+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, Object> result = null;
+        try {
+            result = mapper.readValue(json, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     private static void errorHandling(String json) throws Error{

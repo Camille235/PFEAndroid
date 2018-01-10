@@ -3,7 +3,6 @@ package fr.eseo.dis.camille.pfeandroid;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,17 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Jury;
-import fr.eseo.dis.camille.pfeandroid.bean.ProjectInfo;
-
-import static android.R.attr.description;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Jury;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.ProjectInfo;
 
 public class JuryDetailsActivity extends AppCompatActivity {
 

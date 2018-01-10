@@ -1,5 +1,5 @@
 
-package fr.eseo.dis.camille.pfeandroid.bean;
+package fr.eseo.dis.camille.pfeandroid.dto.note;
 
 import java.util.HashMap;
 import java.util.Map;

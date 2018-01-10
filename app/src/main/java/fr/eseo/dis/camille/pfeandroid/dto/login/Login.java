@@ -1,4 +1,4 @@
-package fr.eseo.dis.camille.pfeandroid.webServiceBean;
+package fr.eseo.dis.camille.pfeandroid.dto.login;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

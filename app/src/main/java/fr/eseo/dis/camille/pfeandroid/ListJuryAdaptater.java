@@ -1,6 +1,5 @@
 package fr.eseo.dis.camille.pfeandroid;
 
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,9 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eseo.dis.camille.pfeandroid.bean.Jury;
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
-import fr.eseo.dis.camille.pfeandroid.bean.ProjectInfo;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Jury;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.ProjectInfo;
 
 /**
  * Created by camil on 22/12/2017.

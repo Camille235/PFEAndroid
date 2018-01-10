@@ -11,21 +11,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Info;
-import fr.eseo.dis.camille.pfeandroid.bean.Jury;
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
-import fr.eseo.dis.camille.pfeandroid.bean.ProjectInfo;
-import fr.eseo.dis.camille.pfeandroid.bean.Student;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
-
-import static android.R.id.list;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Jury;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.ListJuries;
 
 public class ListJuryActivity extends AppCompatActivity {
 

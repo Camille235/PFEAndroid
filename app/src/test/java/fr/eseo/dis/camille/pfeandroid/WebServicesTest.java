@@ -5,7 +5,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 import org.junit.Test;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
+import fr.eseo.dis.camille.pfeandroid.dto.login.Login;
 
 
 /**

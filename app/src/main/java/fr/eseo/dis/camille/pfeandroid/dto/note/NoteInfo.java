@@ -1,5 +1,5 @@
 
-package fr.eseo.dis.camille.pfeandroid.webServiceBean;
+package fr.eseo.dis.camille.pfeandroid.dto.note;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import fr.eseo.dis.camille.pfeandroid.bean.Note;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({

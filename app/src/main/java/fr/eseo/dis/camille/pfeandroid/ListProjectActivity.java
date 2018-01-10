@@ -15,9 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
-import fr.eseo.dis.camille.pfeandroid.bean.Student;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Student;
+import fr.eseo.dis.camille.pfeandroid.dto.projects.ListProjects;
 
 
 public class ListProjectActivity extends AppCompatActivity {

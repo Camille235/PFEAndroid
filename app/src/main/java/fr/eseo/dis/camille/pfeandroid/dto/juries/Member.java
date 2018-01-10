@@ -1,10 +1,10 @@
-package fr.eseo.dis.camille.pfeandroid.bean;
+package fr.eseo.dis.camille.pfeandroid.dto.juries;
 
 /**
  * Created by Jérome on 20/12/2017.
  */
 
-public class Supervisor {
+public class Member {
 
     private String forename;
     private String surname;

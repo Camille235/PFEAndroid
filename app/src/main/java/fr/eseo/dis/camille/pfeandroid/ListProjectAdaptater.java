@@ -9,11 +9,9 @@ package fr.eseo.dis.camille.pfeandroid;
         import android.widget.TextView;
 
         import java.util.ArrayList;
-        import java.util.Arrays;
         import java.util.List;
 
-        import fr.eseo.dis.camille.pfeandroid.bean.Project;
-        import fr.eseo.dis.camille.pfeandroid.bean.Supervisor;
+        import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 
 /**
  * Created by Camille on 20/12/2017.

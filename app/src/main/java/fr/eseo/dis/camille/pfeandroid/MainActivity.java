@@ -1,19 +1,17 @@
 package fr.eseo.dis.camille.pfeandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
+import fr.eseo.dis.camille.pfeandroid.dto.login.Login;
 
 
 public class MainActivity extends AppCompatActivity {

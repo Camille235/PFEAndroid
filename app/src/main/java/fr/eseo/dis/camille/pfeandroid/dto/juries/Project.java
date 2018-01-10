@@ -1,7 +1,4 @@
-package fr.eseo.dis.camille.pfeandroid.bean;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package fr.eseo.dis.camille.pfeandroid.dto.juries;
 
 /**
  * Created by Camille on 20/12/2017.

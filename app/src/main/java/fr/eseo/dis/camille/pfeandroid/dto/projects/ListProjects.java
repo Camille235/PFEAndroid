@@ -1,16 +1,16 @@
-package fr.eseo.dis.camille.pfeandroid.webServiceBean;
+package fr.eseo.dis.camille.pfeandroid.dto.projects;
 
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 
 /**
  * Created by Arthur on 20/12/2017.
  */
 
-public class JuryInfo {
+public class ListProjects {
 
-    private String result;
-    private String api;
-    private Project[] projects;
+    String result;
+    String api;
+    Project[] projects;
 
     public String getResult() {
         return result;

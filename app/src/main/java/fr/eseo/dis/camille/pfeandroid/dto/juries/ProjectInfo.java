@@ -1,4 +1,6 @@
-package fr.eseo.dis.camille.pfeandroid.bean;
+package fr.eseo.dis.camille.pfeandroid.dto.juries;
+
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Supervisor;
 
 /**
  * Created by Arthur on 20/12/2017.

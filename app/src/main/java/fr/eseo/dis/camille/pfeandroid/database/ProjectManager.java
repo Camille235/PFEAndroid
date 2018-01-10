@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import fr.eseo.dis.camille.pfeandroid.bean.Project;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 
 /**
  * Created by Jérome on 10/01/2018.
