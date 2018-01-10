@@ -46,7 +46,7 @@ public class ListProjectAdaptater extends
                 .inflate(R.layout.list_project_card, parent, false);
         Log.d("ListProjectAdaptater","onCreateViewHolder()");
         CardView projectCardView = (CardView)projectView;
-        projectCardView.setCardElevation(ListProjectActivity.NEW_CARD_COUNTER);
+        projectCardView.setCardElevation(ListJuryActivity.NEW_CARD_COUNTER);
         return new ProjectViewHolder(projectView);
     }
 

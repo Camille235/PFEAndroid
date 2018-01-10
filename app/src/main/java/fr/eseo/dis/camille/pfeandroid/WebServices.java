@@ -295,10 +295,10 @@ public class WebServices {
         InputStream is = retrieveImage(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=POSTR&user="+username+"&proj="+proj+"&style="+style+"&token="+token);
 
-        String response = convertStreamToString(is);
-        if("{".equals(response.substring(0,0))){
+        /*String response = convertStreamToString(is);
+            if("{".equals(response.substring(0,0))){
             errorHandling(response);
-        }
+        }*/
         return BitmapFactory.decodeStream(is);
     }
 

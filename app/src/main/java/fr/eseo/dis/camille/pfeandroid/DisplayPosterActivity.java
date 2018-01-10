@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import fr.eseo.dis.camille.pfeandroid.ProjectDetailsActivity;
-import fr.eseo.dis.camille.pfeandroid.R;
 
 public class DisplayPosterActivity extends AppCompatActivity {
 
