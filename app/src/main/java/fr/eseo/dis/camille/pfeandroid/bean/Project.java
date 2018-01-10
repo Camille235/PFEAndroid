@@ -1,10 +1,16 @@
 package fr.eseo.dis.camille.pfeandroid.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by camil on 20/12/2017.
  */
 
-public class Project {
+public class Project{
+
+
+
 
     private int projectId;
     private String title;
@@ -13,6 +19,7 @@ public class Project {
     private Supervisor supervisor;
     private int confid;
     private Student[] students;
+
 
     public int getProjectId() {
         return projectId;
@@ -69,4 +76,7 @@ public class Project {
     public void setStudents(Student[] students) {
         this.students = students;
     }
+
+
+
 }

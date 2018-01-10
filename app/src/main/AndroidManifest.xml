@@ -24,7 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".SideMenuActivity"></activity>
+        <activity android:name=".ListProjectActivity" />
+        <activity android:name=".SideMenuActivity" />
+        <activity android:name=".ProjectDetailsActivity" />
+        <activity android:name=".ListJuryActivity"></activity>
     </application>
 
 </manifest>
