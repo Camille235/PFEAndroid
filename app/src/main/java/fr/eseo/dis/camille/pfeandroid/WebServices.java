@@ -34,6 +34,7 @@ import fr.eseo.dis.camille.pfeandroid.webServiceBean.JuryInfo;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
+import fr.eseo.dis.camille.pfeandroid.webServiceBean.NoteInfo;
 
 /**
  * Created by Arthur on 20/12/2017.
@@ -293,11 +294,30 @@ public class WebServices {
      * @return a Bitmap used for ???
      * @throws Error
      */
-    public static Bitmap poster(Context context, String username, String token, String proj, String style) throws Error{
+    public static Bitmap poster(Context context, String username, String token, String proj, String style) {
         InputStream is = retrieveImage(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=POSTR&user="+username+"&proj="+proj+"&style="+style+"&token="+token);
 
+        String response = convertStreamToString(is);
+        if("{".equals(response.substring(0,0))){
+            errorHandling(response);
+        }
         return BitmapFactory.decodeStream(is);
+    }
+
+    public static NoteInfo notes(Context context, String username, String token, String proj) throws Error{
+        String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
+                "q=NOTES&user="+username+"&proj="+proj+"&token="+token);
+        errorHandling(json);
+        ObjectMapper mapper = new ObjectMapper();
+        NoteInfo note = null;
+        try {
+            note = mapper.readValue(json, NoteInfo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return note;
     }
 
     private static void errorHandling(String json) throws Error{
