@@ -27,7 +27,9 @@
         <activity android:name=".ListProjectActivity" />
         <activity android:name=".SideMenuActivity" />
         <activity android:name=".ProjectDetailsActivity" />
-        <activity android:name=".ListJuryActivity"></activity>
+        <activity android:name=".ListJuryActivity" />
+        <activity android:name=".JuryDetailsActivity" />
+        <activity android:name=".DisplayPosterActivity"></activity>
     </application>
 
 </manifest>

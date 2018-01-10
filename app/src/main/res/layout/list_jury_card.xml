@@ -40,12 +40,12 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/liste_project_label"
+            android:id="@+id/list_project_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="2dp"
-            android:text="Projet:"
+            android:text="Projet(s):"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             android:visibility="gone" />

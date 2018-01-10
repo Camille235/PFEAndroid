@@ -16,7 +16,7 @@ package fr.eseo.dis.camille.pfeandroid;
         import fr.eseo.dis.camille.pfeandroid.bean.Supervisor;
 
 /**
- * Created by camil on 20/12/2017.
+ * Created by Camille on 20/12/2017.
  */
 
 public class ListProjectAdaptater extends
@@ -83,13 +83,16 @@ public class ListProjectAdaptater extends
             @Override
             public boolean onLongClick(View v) {
                 Log.d("ListProjectAdaptater","Item 'long clicked'");
+                TextView resumeLabel = (TextView) v.findViewById(R.id.resume_label);
                 TextView descript = (TextView) v.findViewById(R.id.project_descript);
 
                 if (positionsExpanded.contains(position)) {
+                    resumeLabel.setVisibility(View.GONE);
                     descript.setVisibility(View.GONE);
 
                     positionsExpanded.remove(new Integer(position));
                 } else {
+                    resumeLabel.setVisibility(View.VISIBLE);
                     descript.setVisibility(View.VISIBLE);
 
                     positionsExpanded.add(position);

@@ -1,8 +1,5 @@
 package fr.eseo.dis.camille.pfeandroid;
 
-
-
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.content.Intent;
@@ -10,28 +7,18 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import errors.LoginError;
-import fr.eseo.dis.camille.pfeandroid.R;
 import fr.eseo.dis.camille.pfeandroid.bean.Project;
 import fr.eseo.dis.camille.pfeandroid.bean.Student;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
-import fr.eseo.dis.camille.pfeandroid.webServiceBean.Login;
 
-import static android.R.id.message;
-import static fr.eseo.dis.camille.pfeandroid.R.id.login;
-import static fr.eseo.dis.camille.pfeandroid.R.id.username;
 
 public class ListProjectActivity extends AppCompatActivity {
 
@@ -107,6 +94,7 @@ public class ListProjectActivity extends AppCompatActivity {
     public void clickItem(Project project) {
         Intent intent = new Intent(this, ProjectDetailsActivity.class);
         SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("projectId", project.getProjectId());
         editor.putString("projectTitle", project.getTitle());
         editor.putString("projectDescription", project.getDescrip());
         editor.putString("projectSupervisor", project.getSupervisor().getForename() + " " + project.getSupervisor().getSurname());

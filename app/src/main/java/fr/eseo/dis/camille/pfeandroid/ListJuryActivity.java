@@ -11,13 +11,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import errors.LoginError;
 import fr.eseo.dis.camille.pfeandroid.bean.Info;
 import fr.eseo.dis.camille.pfeandroid.bean.Jury;
 import fr.eseo.dis.camille.pfeandroid.bean.Project;
+import fr.eseo.dis.camille.pfeandroid.bean.ProjectInfo;
 import fr.eseo.dis.camille.pfeandroid.bean.Student;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListJuries;
 import fr.eseo.dis.camille.pfeandroid.webServiceBean.ListProjects;
@@ -33,6 +36,7 @@ public class ListJuryActivity extends AppCompatActivity {
     public static int NEW_CARD_COUNTER;
 
     private ListJuryAdaptater listJuryAdaptater;
+    public static Jury jury;
 
     RecyclerView recycler;
     SharedPreferences pref;
@@ -45,6 +49,8 @@ public class ListJuryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_jury);
         Intent intent = getIntent();
         listJuryStyle = intent.getStringExtra("listJuryStyle");
+
+
 
         NEW_CARD_COUNTER = 3;
         recycler = (RecyclerView) findViewById(R.id.cardList);
@@ -95,14 +101,23 @@ public class ListJuryActivity extends AppCompatActivity {
     }
 
     public void clickItem(Jury jury) {
-        Intent intent = new Intent(this, ProjectDetailsActivity.class);
+        Intent intent = new Intent(this, JuryDetailsActivity.class);
         SharedPreferences.Editor editor = pref.edit();
-        Info info = jury.getInfo();
-        editor.putInt("juryId", jury.getIdJury());
+        this.jury = jury;
+        /*editor.putInt("juryId", jury.getIdJury());
         editor.putString("juryDate", jury.getDate());
-
-        editor.commit(); // commit changes
+        ProjectInfo[] projectInfo = jury.getInfo().getProjects();
+        int[] listPostersId = new int[projectInfo.length];
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < listPostersId.length; i++) {
+            str.append(projectInfo[i].getProjectId()).append(",");
+        }
+        editor.putString("listPostersId", str.toString());
+        editor.putInt("size", listPostersId.length);
+        editor.commit(); // commit changes*/
         startActivity(intent);
+
+
     }
 
 

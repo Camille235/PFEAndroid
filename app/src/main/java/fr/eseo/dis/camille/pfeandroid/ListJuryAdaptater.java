@@ -72,7 +72,7 @@ public void onBindViewHolder(ListJuryAdaptater.JuryViewHolder holder, final int 
 @Override
 public void onClick(View v) {
         Log.d("ListProjectAdaptater","Item 'clicked'");
-        //activity.clickItem(jury);
+        activity.clickItem(jury);
         }
         });
 
@@ -87,13 +87,16 @@ public void onClick(View v) {
 @Override
 public boolean onLongClick(View v) {
         Log.d("ListProjectAdaptater","Item 'long clicked'");
-        TextView juryPosters = v.findViewById(R.id.project_descript);
+        TextView label = v.findViewById(R.id.list_project_label);
+        TextView juryPosters = v.findViewById(R.id.jury_project);
 
 
         if (positionsExpanded.contains(position)) {
+            label.setVisibility(View.GONE);
             juryPosters.setVisibility(View.GONE);
             positionsExpanded.remove(new Integer(position));
         }else {
+            label.setVisibility(View.VISIBLE);
             juryPosters.setVisibility(View.VISIBLE);
             positionsExpanded.add(new Integer(position));
 
