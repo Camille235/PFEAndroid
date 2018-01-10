@@ -27,6 +27,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
+import fr.eseo.dis.camille.pfeandroid.dto.door.DoorProjects;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.JuryInfo;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.ListJuries;
 import fr.eseo.dis.camille.pfeandroid.dto.projects.ListProjects;
@@ -324,14 +325,14 @@ public class WebServices {
     }
 
 
-    public static HashMap<String, Object> porte(Context context, String username, String token, String seed) throws Error{
+    public static DoorProjects porte(Context context, String username, String token, String seed) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&seed="+seed+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, Object> result = null;
+        DoorProjects result = null;
         try {
-            result = mapper.readValue(json, HashMap.class);
+            result = mapper.readValue(json, DoorProjects.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -339,14 +340,14 @@ public class WebServices {
         return result;
     }
 
-    public static HashMap<String, Object> porte(Context context, String username, String token) throws Error{
+    public static DoorProjects porte(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, Object> result = null;
+        DoorProjects result = null;
         try {
-            result = mapper.readValue(json, HashMap.class);
+            result = mapper.readValue(json, DoorProjects.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
