@@ -1,4 +1,4 @@
-package fr.eseo.dis.camille.pfeandroid.BDD;
+package fr.eseo.dis.camille.pfeandroid.database;
 
 import android.content.ContentValues;
 import android.content.Context;

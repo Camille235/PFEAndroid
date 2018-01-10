@@ -1,4 +1,4 @@
-package fr.eseo.dis.camille.pfeandroid.BDD;
+package fr.eseo.dis.camille.pfeandroid.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import fr.eseo.dis.camille.pfeandroid.bean.Project;
-import fr.eseo.dis.camille.pfeandroid.bean.User;
 
 /**
  * Created by Jérome on 10/01/2018.
