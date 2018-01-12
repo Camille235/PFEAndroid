@@ -194,6 +194,14 @@ public class WebServices {
         return sb.toString();
     }
 
+    /**
+     * Initial validation of users credentials
+     * @param context the android context
+     * @param username username of the user
+     * @param password password of the user
+     * @return a Login, containing the token
+     * @throws LoginError if the combinaison login/password is incorrect or doesn't exist
+     */
     public static Login login(Context context, String username, String password) throws LoginError{
 
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&user="+username+"&pass="+password);
@@ -209,6 +217,14 @@ public class WebServices {
         return log;
     }
 
+    /**
+     * List information on all projects
+     * @param context the android context
+     * @param username the user's username
+     * @param token the user's token
+     * @return an object containing a list of project
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static ListProjects listAllProjects(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIPRJ&user="+username+"&token="+token);
         errorHandling(json);
@@ -223,6 +239,14 @@ public class WebServices {
         return list;
     }
 
+    /**
+     * List information on projects where the user is the supervisor
+     * @param context the android context
+     * @param username the user's username
+     * @param token the user's token
+     * @return an object containing a list of project
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static ListProjects listMyProjects(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYPRJ&user="+username+"&token="+token);
         errorHandling(json);
@@ -237,6 +261,14 @@ public class WebServices {
         return list;
     }
 
+    /**
+     * List information on all the juries
+     * @param context the android context
+     * @param username the user's username
+     * @param token the user's token
+     * @return an object containing a list of juries
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static ListJuries listAllJuries(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIJUR&user="+username+"&token="+token);
         errorHandling(json);
@@ -251,6 +283,14 @@ public class WebServices {
         return list;
     }
 
+    /**
+     * List information on the juries where the user is a member of the jury
+     * @param context the android context
+     * @param username the user's username
+     * @param token the user's token
+     * @return an object containing a list of juries
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static ListJuries listMyJuries(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYJUR&user="+username+"&token="+token);
         errorHandling(json);
@@ -265,6 +305,15 @@ public class WebServices {
         return list;
     }
 
+    /**
+     * Provide detailed information on projects in a given jury
+     * @param context the android context
+     * @param username the user's username
+     * @param token the user's token
+     * @param juryId the id of the desired jury
+     * @return an object containing the infos on the designated jury
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static JuryInfo juryinfo(Context context, String username, String token, String juryId) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=JYINF&user="+username+"&jury="+juryId+"&token="+token);
         errorHandling(json);
@@ -280,7 +329,7 @@ public class WebServices {
     }
 
     /**
-     * Return a project's poster
+     * Recuperate a poster for a given project
      * @param context the android context
      * @param username the username of the user
      * @param token the token from login (see login() )
@@ -290,7 +339,7 @@ public class WebServices {
      *             An optional parameter style allows a user to choose what format they wish to download the image in,
      *             either PNG both full size and thumbnail or a PNG le encoded in Base64.
      * @return a Bitmap used for ???
-     * @throws Error
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
     public static Bitmap poster(Context context, String username, String token, String proj, String style) {
         InputStream is = retrieveImage(context, "https://192.168.4.10/www/pfe/webservice.php?" +
@@ -303,6 +352,15 @@ public class WebServices {
         return BitmapFactory.decodeStream(is);
     }
 
+    /**
+     * List the ’notes’ of all the team members for a given project
+     * @param context the android context
+     * @param username the username of the user
+     * @param token the token from login (see login() )
+     * @param proj the id of the designated project
+     * @return an object containing the info on the mark
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static NoteInfo notes(Context context, String username, String token, String proj) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=NOTES&user="+username+"&proj="+proj+"&token="+token);
@@ -318,13 +376,31 @@ public class WebServices {
         return note;
     }
 
+    /**
+     * Add or update a note for a given student
+     * @param context the android context
+     * @param username the username of the user
+     * @param token the token from login (see login() )
+     * @param proj the id of the designated project
+     * @param student the id of the designated student
+     * @param note the note to put
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static void newNote(Context context, String username, String token, String proj, String student, String note) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=NEWNT&user="+username+"&proj="+proj+"&student="+student+"&note="+note+"&token="+token);
         errorHandling(json);
     }
 
-
+    /**
+     * Recuperate a range of non condential projects and posters for a demonstration “portes ouvertes”?
+     * @param context the android context
+     * @param username the username of the user
+     * @param token the token from login (see login() )
+     * @param seed a seed to be sure to get the same list again
+     * @return an object containing some projects
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static DoorProjects porte(Context context, String username, String token, String seed) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&seed="+seed+"&token="+token);
@@ -340,6 +416,14 @@ public class WebServices {
         return result;
     }
 
+    /**
+     * Recuperate a range of non condential projects and posters for a demonstration “portes ouvertes”?
+     * @param context the android context
+     * @param username the username of the user
+     * @param token the token from login (see login() )
+     * @return an object containing some projects
+     * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
+     */
     public static DoorProjects porte(Context context, String username, String token) throws Error{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&token="+token);
