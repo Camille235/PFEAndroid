@@ -42,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
                 usernameString = username.getText().toString();
                 passwordString = password.getText().toString();
-                new HttpRequestTask().execute();
+                if(!"".equals(usernameString) && !"".equals(passwordString)){
+                    new HttpRequestTask().execute();
+                }else{
+
+                }
+
                 /*String message = "";
                 try {
                     Login login = webServices.login(MainActivity.this, usernameString, passwordString);

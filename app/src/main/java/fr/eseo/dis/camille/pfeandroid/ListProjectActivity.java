@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,6 +20,8 @@ import errors.LoginError;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.Student;
 import fr.eseo.dis.camille.pfeandroid.dto.projects.ListProjects;
+
+import static fr.eseo.dis.camille.pfeandroid.Tool.parse;
 
 
 public class ListProjectActivity extends AppCompatActivity {
@@ -93,24 +97,14 @@ public class ListProjectActivity extends AppCompatActivity {
 
     public void clickItem(Project project) {
         Intent intent = new Intent(this, ProjectDetailsActivity.class);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("projectId", project.getProjectId());
-        editor.putString("projectTitle", project.getTitle());
-        editor.putString("projectDescription", project.getDescrip());
-        editor.putString("projectSupervisor", project.getSupervisor().getForename() + " " + project.getSupervisor().getSurname());
-        editor.putInt("projectConfidentiality", project.getConfid());
-        editor.putBoolean("projectPoster", project.isPoster());
 
-        Student[] students = project.getStudents();
-
-        Set<String> studentName = new HashSet<>();
-
-        for(int i = 0; i < students.length; i++){
-            studentName.add(students[i].getForename() + " " + students[i].getSurname());
+        try {
+            String projectAsString = Tool.parse(project);
+            intent.putExtra("projectAsString", projectAsString);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-        editor.putStringSet("studentName", studentName);
 
-        editor.commit(); // commit changes
         startActivity(intent);
     }
 

@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,7 +27,6 @@ public class ListJuryActivity extends AppCompatActivity {
     public static int NEW_CARD_COUNTER;
 
     private ListJuryAdaptater listJuryAdaptater;
-    public static Jury jury;
 
     RecyclerView recycler;
     SharedPreferences pref;
@@ -91,19 +92,14 @@ public class ListJuryActivity extends AppCompatActivity {
 
     public void clickItem(Jury jury) {
         Intent intent = new Intent(this, JuryDetailsActivity.class);
-        SharedPreferences.Editor editor = pref.edit();
-        this.jury = jury;
-        /*editor.putInt("juryId", jury.getIdJury());
-        editor.putString("juryDate", jury.getDate());
-        ProjectInfo[] projectInfo = jury.getInfo().getProjects();
-        int[] listPostersId = new int[projectInfo.length];
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < listPostersId.length; i++) {
-            str.append(projectInfo[i].getProjectId()).append(",");
+
+        try {
+            String juryAsString = Tool.parse(jury);
+            intent.putExtra("juryAsString", juryAsString);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-        editor.putString("listPostersId", str.toString());
-        editor.putInt("size", listPostersId.length);
-        editor.commit(); // commit changes*/
+
         startActivity(intent);
 
 

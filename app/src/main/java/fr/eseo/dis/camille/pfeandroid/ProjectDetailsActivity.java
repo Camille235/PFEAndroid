@@ -14,11 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 import errors.LoginError;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Student;
+import fr.eseo.dis.camille.pfeandroid.dto.note.NoteInfo;
+
 
 public class ProjectDetailsActivity extends AppCompatActivity {
 
@@ -26,6 +31,10 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private TextView title;
     private TextView poster;
     private TextView supervisor;
+
+
+    private Button buttonEvaluation;
+
     private TextView description;
 
     private int idPoster;
@@ -35,32 +44,41 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private WebServices webServices;
     public static Bitmap fullPoster;
 
-    private Button btnDetails;
     private SharedPreferences pref;
     private String message = "";
+    private Project project;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_details);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        idPoster = pref.getInt("projectId", 0);
         title = (TextView) findViewById(R.id.project_details_title);
         poster = (TextView) findViewById(R.id.project_details_poster);
         supervisor = (TextView) findViewById(R.id.project_details_supervisor);
         description = (TextView) findViewById(R.id.project_details_description);
 
-        btnDetails = (Button) findViewById(R.id.button_details);
+        buttonEvaluation = (Button) findViewById(R.id.button_evaluation);
         posterView = (ImageView) findViewById(R.id.posterImageView);
 
-        title.setText(pref.getString("projectTitle", null));
-        if(pref.getBoolean("projectPoster", false)){
+
+        Intent intent = getIntent();
+        ObjectMapper o = new ObjectMapper();
+        try {
+            project = o.readValue(intent.getStringExtra("projectAsString"), Project.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        idPoster = project.getProjectId();
+        title.setText(project.getTitle());
+        if(project.isPoster()){
             poster.setText("Poster : Oui");
         }else{
             poster.setText("Poster : Non");
         }
-        supervisor.setText(pref.getString("projectSupervisor", null));
-        description.setText(pref.getString("projectDescription", null));
+        supervisor.setText(project.getSupervisor().getForename() + " " + project.getSupervisor().getSurname());
+        description.setText(project.getDescrip());
        /* btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,16 +88,32 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
         });*/
 
-        Set<String> studentNameSet = pref.getStringSet("studentName", null);
-        List<String> studentName = new ArrayList<>(studentNameSet);
+        Student[] students = project.getStudents();
 
         LinearLayout linear = (LinearLayout) findViewById(R.id.project_details_students);
-        for (int i = 0; i < studentName.size(); i++) {
+        for (int i = 0; i < students.length; i++) {
             TextView spaceText = new TextView(this);
-            spaceText.setText(studentName.get(i));
+            spaceText.setText(students[i].getForename() + " " + students[i].getSurname());
             spaceText.setTextColor(ContextCompat.getColor(this, R.color.darkGrey));
             linear.addView(spaceText);
         }
+
+
+        buttonEvaluation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProjectDetailsActivity.this, EvaluationActivity.class);
+                try {
+                    String projectAsString = Tool.parse(project);
+                    intent.putExtra("projectAsString", projectAsString);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+            }
+
+        });
+
         new HttpRequestTask().execute();
 
     }
@@ -104,7 +138,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap poster) {
             if (poster == null) {
-                Toast.makeText(ProjectDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+
             }
             else{
                 posterView.setImageBitmap(poster);
@@ -112,6 +146,8 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         }
 
     }
+
+
     public void onClick(View v) {
         Intent intent = new Intent(this, DisplayPosterActivity.class);
         startActivity(intent);

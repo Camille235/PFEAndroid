@@ -29,7 +29,8 @@
         <activity android:name=".ProjectDetailsActivity" />
         <activity android:name=".ListJuryActivity" />
         <activity android:name=".JuryDetailsActivity" />
-        <activity android:name=".DisplayPosterActivity"></activity>
+        <activity android:name=".DisplayPosterActivity" />
+        <activity android:name=".EvaluationActivity"></activity>
     </application>
 
 </manifest>
