@@ -30,7 +30,8 @@
         <activity android:name=".ListJuryActivity" />
         <activity android:name=".JuryDetailsActivity" />
         <activity android:name=".DisplayPosterActivity" />
-        <activity android:name=".EvaluationActivity"></activity>
+        <activity android:name=".EvaluationActivity" />
+        <activity android:name=".EvaluationValidationActivity"></activity>
     </application>
 
 </manifest>
