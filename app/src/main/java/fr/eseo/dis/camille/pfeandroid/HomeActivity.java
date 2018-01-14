@@ -20,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         final Button listMyProjectActivity = (Button) findViewById(R.id.button_my_projects);
         final Button listJuryActivity = (Button) findViewById(R.id.button_all_juries);
         final Button listMyJuryActivity = (Button) findViewById(R.id.button_my_juries);
+        final Button addPseudoJury = (Button) findViewById(R.id.button_add_pseudo_jury);
 
         listProjectActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +60,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 
+        });
+
+        addPseudoJury.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, AddPseudoJuryActivity.class);
+                startActivity(intent);
+            }
         });
 
         TextView text = (TextView)findViewById(R.id.textView);

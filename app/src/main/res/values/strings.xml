@@ -27,4 +27,8 @@
     </string-array>
 
     <string name="mon_texte">Mon texte</string>
+    <string name="title_activity_side_menu2">SideMenu2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
