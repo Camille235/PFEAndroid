@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,6 +61,7 @@ public class EvaluationValidationActivity extends AppCompatActivity {
         recycler.setAdapter(evaluationValidationAdaptater);
         evaluationValidationAdaptater.setNotes(noteInfo.getNotes());
 
+
         new HttpRequestTask();
     }
 
@@ -67,6 +69,7 @@ public class EvaluationValidationActivity extends AppCompatActivity {
     private class HttpRequestTask extends AsyncTask<Void, Void, NoteInfo> {
         @Override
         protected NoteInfo doInBackground(Void... params) {
+            Toast.makeText(EvaluationValidationActivity.this, "coucou", Toast.LENGTH_SHORT).show();
             try {
                 pref = getApplicationContext().getSharedPreferences("MyPref", 0);
                 List<Note> listNotes = noteInfo.getNotes();

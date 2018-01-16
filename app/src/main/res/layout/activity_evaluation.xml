@@ -53,6 +53,18 @@
                     android:textAlignment="textEnd"
                     android:textSize="24sp" />
 
+                <Button
+                    android:id="@+id/button_global_note"
+
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:text=">"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:onClick="buttonClicked"/>
+
+
             </LinearLayout>
 
         </LinearLayout>

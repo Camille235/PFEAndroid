@@ -1,5 +1,6 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,8 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,8 +51,12 @@ public class EvaluationActivity extends AppCompatActivity {
 
     private TextView projectTitle;
     private Button buttonValidation;
+    private Button buttonGlobalNote;
+    private EditText globalNote;
 
     private NoteInfo noteInfoGlobal;
+
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -59,7 +66,7 @@ public class EvaluationActivity extends AppCompatActivity {
 
         projectTitle = (TextView) findViewById(R.id.project_title);
         buttonValidation = (Button) findViewById(R.id.button_notes_validation);
-
+        buttonGlobalNote= (Button) findViewById(R.id.button_global_note);
         Intent intent = getIntent();
         ObjectMapper o = new ObjectMapper();
         try {
@@ -78,6 +85,24 @@ public class EvaluationActivity extends AppCompatActivity {
         noteAdapter = new NoteAdaptater(this);
 
         new HttpRequestTask().execute();
+
+
+        buttonGlobalNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                globalNote = (EditText) findViewById(R.id.note_value);
+                int noteValue = Integer.parseInt(globalNote.getText().toString());
+                if(noteValue >= 0 && noteValue <= 20 && noteInfoGlobal != null){
+                    for(Note note : noteInfoGlobal.getNotes()){
+                        note.setMynote(noteValue);
+                    }
+                    clickNoteVariation(noteInfoGlobal.getNotes());
+                }else{
+                    Toast.makeText(EvaluationActivity.this, "Veuillez rentrer une note entre 0 et 20", Toast.LENGTH_SHORT ).show();
+                }
+            }
+
+        });
 
         buttonValidation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +123,20 @@ public class EvaluationActivity extends AppCompatActivity {
     }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, NoteInfo> {
+
+        protected void onPreExecute(){
+            progressDialog = new ProgressDialog(EvaluationActivity.this);
+            progressDialog.setTitle("Chargement");
+            progressDialog.setMessage("Progression ...");
+            progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);//horizontal
+            progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER); //Circular
+            progressDialog.setProgress(0);
+            progressDialog.setMax(20); // the progress has 20 steps
+            progressDialog.setIndeterminate(true);// infinite loop in the progress
+            progressDialog.show();
+
+        }
+
         @Override
         protected NoteInfo doInBackground(Void... params) {
             try {
@@ -120,6 +159,7 @@ public class EvaluationActivity extends AppCompatActivity {
 
             }
             else{
+                progressDialog.dismiss();
                 recycler.setAdapter(noteAdapter);
                 noteAdapter.setNotes(noteInfo.getNotes());
                 buttonValidation.setVisibility(View.VISIBLE);
