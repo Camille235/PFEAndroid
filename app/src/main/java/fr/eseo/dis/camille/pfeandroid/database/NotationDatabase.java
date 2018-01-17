@@ -11,7 +11,7 @@ import android.content.Context;
  */
 
 @Database(entities = {PseudoJury.class, Mark.class, DatabaseProject.class},
-        version = 4)
+        version = 5)
 
 public abstract class NotationDatabase extends RoomDatabase {
     private static NotationDatabase INSTANCE;
