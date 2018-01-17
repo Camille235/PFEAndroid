@@ -16,7 +16,7 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
     EditText password;
     String usernameString;
     String passwordString;
-    PseudoJury ps;
+    PseudoJury ps = new PseudoJury(-1,"Jhon","Doe");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
