@@ -62,9 +62,6 @@ public class WebServices {
                 caChain = cf.generateCertificate(caInputChain);
                 caInter = cf.generateCertificate(caInputInter);
                 caRoot = cf.generateCertificate(caInputRoot);
-                System.out.println("caChain=" + ((X509Certificate) caChain).getSubjectDN());
-                System.out.println("caInter=" + ((X509Certificate) caInter).getSubjectDN());
-                System.out.println("caRoot=" + ((X509Certificate) caRoot).getSubjectDN());
             } finally {
                 caInputChain.close();
                 caInputInter.close();
@@ -129,9 +126,6 @@ public class WebServices {
                 caChain = cf.generateCertificate(caInputChain);
                 caInter = cf.generateCertificate(caInputInter);
                 caRoot = cf.generateCertificate(caInputRoot);
-                System.out.println("caChain=" + ((X509Certificate) caChain).getSubjectDN());
-                System.out.println("caInter=" + ((X509Certificate) caInter).getSubjectDN());
-                System.out.println("caRoot=" + ((X509Certificate) caRoot).getSubjectDN());
             } finally {
                 caInputChain.close();
                 caInputInter.close();
