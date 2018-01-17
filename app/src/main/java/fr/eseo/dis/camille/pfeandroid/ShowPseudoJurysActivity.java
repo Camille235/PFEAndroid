@@ -20,14 +20,12 @@ public class ShowPseudoJurysActivity extends AppCompatActivity {
 
         TextView text =(TextView) findViewById(R.id.text_view_database_test);
 
-        GetAllPseudoJurys g = new GetAllPseudoJurys();
-        g.execute();
-        List<PseudoJury> p = g.getListPseudoJurys();
+        List<PseudoJury> p = NotationDatabase.getDatabase(ShowPseudoJurysActivity.this).pseudoJuryDao().loadAllPseudoJurys();
 
         text.setText(p.get(0).getNamePseudoJury());
     }
 
-
+/*
     private class GetAllPseudoJurys extends AsyncTask<Void, Void, Void> {
         private List<PseudoJury> listPseudoJurys;
 
@@ -45,4 +43,5 @@ public class ShowPseudoJurysActivity extends AppCompatActivity {
             this.listPseudoJurys = listPseudoJurys;
         }
     }
+    */
 }
