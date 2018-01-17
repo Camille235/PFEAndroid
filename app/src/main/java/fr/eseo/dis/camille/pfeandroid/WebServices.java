@@ -27,6 +27,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import errors.LoginError;
+import errors.WebServiceError;
 import fr.eseo.dis.camille.pfeandroid.dto.door.DoorProjects;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.JuryInfo;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.ListJuries;
@@ -219,7 +220,7 @@ public class WebServices {
      * @return an object containing a list of project
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static ListProjects listAllProjects(Context context, String username, String token) throws Error{
+    public static ListProjects listAllProjects(Context context, String username, String token) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIPRJ&user="+username+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
@@ -241,7 +242,7 @@ public class WebServices {
      * @return an object containing a list of project
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static ListProjects listMyProjects(Context context, String username, String token) throws Error{
+    public static ListProjects listMyProjects(Context context, String username, String token) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYPRJ&user="+username+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
@@ -263,7 +264,7 @@ public class WebServices {
      * @return an object containing a list of juries
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static ListJuries listAllJuries(Context context, String username, String token) throws Error{
+    public static ListJuries listAllJuries(Context context, String username, String token) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LIJUR&user="+username+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
@@ -285,7 +286,7 @@ public class WebServices {
      * @return an object containing a list of juries
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static ListJuries listMyJuries(Context context, String username, String token) throws Error{
+    public static ListJuries listMyJuries(Context context, String username, String token) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=MYJUR&user="+username+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
@@ -308,7 +309,7 @@ public class WebServices {
      * @return an object containing the infos on the designated jury
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static JuryInfo juryinfo(Context context, String username, String token, String juryId) throws Error{
+    public static JuryInfo juryinfo(Context context, String username, String token, String juryId) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=JYINF&user="+username+"&jury="+juryId+"&token="+token);
         errorHandling(json);
         ObjectMapper mapper = new ObjectMapper();
@@ -355,7 +356,7 @@ public class WebServices {
      * @return an object containing the info on the mark
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static NoteInfo notes(Context context, String username, String token, String proj) throws Error{
+    public static NoteInfo notes(Context context, String username, String token, String proj) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=NOTES&user="+username+"&proj="+proj+"&token="+token);
         errorHandling(json);
@@ -380,7 +381,7 @@ public class WebServices {
      * @param note the note to put
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static void newNote(Context context, String username, String token, String proj, String student, String note) throws Error{
+    public static void newNote(Context context, String username, String token, String proj, String student, String note) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=NEWNT&user="+username+"&proj="+proj+"&student="+student+"&note="+note+"&token="+token);
         errorHandling(json);
@@ -395,7 +396,7 @@ public class WebServices {
      * @return an object containing some projects
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static DoorProjects porte(Context context, String username, String token, String seed) throws Error{
+    public static DoorProjects porte(Context context, String username, String token, String seed) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&seed="+seed+"&token="+token);
         errorHandling(json);
@@ -418,7 +419,7 @@ public class WebServices {
      * @return an object containing some projects
      * @throws Error if the errors' message is "Invalide Credentials", the token have probably expired
      */
-    public static DoorProjects porte(Context context, String username, String token) throws Error{
+    public static DoorProjects porte(Context context, String username, String token) throws WebServiceError{
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?" +
                 "q=PORTE&user="+username+"&token="+token);
         errorHandling(json);
@@ -433,7 +434,7 @@ public class WebServices {
         return result;
     }
 
-    private static void errorHandling(String json) throws Error{
+    private static void errorHandling(String json) throws WebServiceError {
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String,String> map = new HashMap<>();
         try {
@@ -444,7 +445,7 @@ public class WebServices {
         }
 
         if(map.containsKey("error")) {
-            throw new Error(map.get("error"));
+            throw new WebServiceError(map.get("error"));
         }
     }
 
