@@ -1,5 +1,6 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_pseudo_jury);
 
         final Button submitButton = (Button) findViewById(R.id.button_submit);
+        final Button otherButton = (Button) findViewById(R.id.button_show_if_works);
         username = (EditText)findViewById(R.id.champ_name);
         password = (EditText)findViewById(R.id.champs_password);
 
@@ -38,6 +40,14 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
                 a.execute();
             }
         });
+
+        otherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddPseudoJuryActivity.this, ShowPseudoJurysActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private class AddPseudoJuryTask extends AsyncTask<Void, Void, Void> {
@@ -48,11 +58,4 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
         }
     }
 
-    private class GetAllPseudoJurys extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().loadAllPseudoJurys();
-            return null;
-        }
-    }
 }
