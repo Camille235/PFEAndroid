@@ -1,5 +1,6 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -47,6 +48,8 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private String message = "";
     private Project project;
+
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -113,12 +116,26 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
 
         });
-
-        new HttpRequestTask().execute();
+        if(project.isPoster()){
+            new HttpRequestTask().execute();
+        }
 
     }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, Bitmap> {
+        protected void onPreExecute(){
+            progressDialog = new ProgressDialog(ProjectDetailsActivity.this);
+            progressDialog.setTitle("Chargement");
+            progressDialog.setMessage("Progression ...");
+            progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);//horizontal
+            progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER); //Circular
+            progressDialog.setProgress(0);
+            progressDialog.setMax(20); // the progress has 20 steps
+            progressDialog.setIndeterminate(true);// infinite loop in the progress
+            progressDialog.show();
+
+        }
+
         @Override
         protected Bitmap doInBackground(Void... params) {
             try {
@@ -142,6 +159,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
             else{
                 posterView.setImageBitmap(poster);
+                progressDialog.dismiss();
             }
         }
 
