@@ -14,19 +14,20 @@ import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
 public class ListProjectsAsVisitorActivity extends AppCompatActivity {
 
     String username = "";
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_projects_as_visitor);
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        pref.getString("username",username);
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        username = pref.getString("username",username);
 
         List<PseudoJury> lp = NotationDatabase.getDatabase(ListProjectsAsVisitorActivity.this).pseudoJuryDao().loadAllPseudoJurys();
         PseudoJury pseudoJ = null;
         for (PseudoJury p : lp) {
-            if(p.getNamePseudoJury() == username){
+            if(p.getNamePseudoJury().equals(username)){
                 pseudoJ = p;
             }
         }
@@ -34,7 +35,9 @@ public class ListProjectsAsVisitorActivity extends AppCompatActivity {
         List<DatabaseProject> ldp = NotationDatabase.getDatabase(ListProjectsAsVisitorActivity.this).databaseProjectDao().loadAllProjects();
         List<DatabaseProject> ldpFinal = new ArrayList<>();
         for(DatabaseProject dp : ldp) {
+            System.out.println(pseudoJ.getIdPseudoJury()+"     "+dp.getIdPseudoJury());
             if(pseudoJ.getIdPseudoJury() == dp.getIdPseudoJury()) {
+                System.out.println("into if "+dp.getTitleProject());
                 ldpFinal.add(dp);
             }
         }

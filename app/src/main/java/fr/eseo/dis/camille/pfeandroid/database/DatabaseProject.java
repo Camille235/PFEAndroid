@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "projects"
 )
 public class DatabaseProject {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "idProject")
     private int idProject;

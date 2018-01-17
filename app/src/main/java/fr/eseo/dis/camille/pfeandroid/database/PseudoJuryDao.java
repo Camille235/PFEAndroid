@@ -17,6 +17,9 @@ public interface PseudoJuryDao {
     @Query("SELECT * FROM pseudojurys")
     List<PseudoJury> loadAllPseudoJurys();
 
+    @Query("SELECT * FROM pseudojurys where namePseudoJury=:pseudo and passwordPseudoJury=:password")
+    List<PseudoJury> loadOnePseudoJurys(String pseudo, String password);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPseudoJury(PseudoJury pseudoJury);
 }

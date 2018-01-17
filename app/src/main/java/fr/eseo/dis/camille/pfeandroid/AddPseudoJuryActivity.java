@@ -113,8 +113,9 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
                 }
             }
             else{
+                PseudoJury psTemp =  NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().loadOnePseudoJurys(ps.getNamePseudoJury(), ps.getPasswordPseudoJury()).get(0);
                 for(Project p : doorProjects.getProjects()) {
-                    DatabaseProject dP = new DatabaseProject(p.getTitle(),p.getDescription(),p.getPoster(),ps.getIdPseudoJury());
+                    DatabaseProject dP = new DatabaseProject(p.getTitle(),p.getDescription(),p.getPoster(),psTemp.getIdPseudoJury());
                     NotationDatabase.getDatabase(AddPseudoJuryActivity.this).databaseProjectDao().insertProject(dP);
                 }
                 progressDialog.dismiss();

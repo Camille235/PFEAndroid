@@ -91,11 +91,14 @@ public class MainActivity extends AppCompatActivity {
                 List<PseudoJury> lp = NotationDatabase.getDatabase(MainActivity.this).pseudoJuryDao().loadAllPseudoJurys();
 
                 for (PseudoJury p : lp) {
-                    if (usernameString == p.getNamePseudoJury() && passwordString == p.getPasswordPseudoJury()) {
+                    System.out.println(p.getNamePseudoJury());
+                    System.out.println(p.getPasswordPseudoJury());
+                    if (usernameString.equals(p.getNamePseudoJury()) && passwordString.equals(p.getPasswordPseudoJury())) {
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("username", usernameString);
-                        intent = new Intent(MainActivity.this, HomeActivity.class);
+                        editor.commit();
+                        intent = new Intent(MainActivity.this, ListProjectsAsVisitorActivity.class);
                         startActivity(intent);
                     }
                 }
