@@ -109,10 +109,13 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
 
+
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button_evaluation"
+                        android:background="@color/blue"
+                        android:textColor="@color/white"
                         android:text="Noter"/>
                 </LinearLayout>
             </LinearLayout>

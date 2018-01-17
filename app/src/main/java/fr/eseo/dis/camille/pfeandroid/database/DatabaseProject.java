@@ -30,7 +30,7 @@ public class DatabaseProject {
     private String posterProject;
 
     @NonNull
-    @ColumnInfo(name = "posterProject")
+    @ColumnInfo(name = "idPseudoJury")
     private int idPseudoJury;
 
     public DatabaseProject(@NonNull String titleProject, @NonNull String descriptionProject, @NonNull String posterProject, @NonNull int idPseudoJury) {

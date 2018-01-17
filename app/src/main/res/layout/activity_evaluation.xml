@@ -80,6 +80,8 @@
             android:id="@+id/button_notes_validation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:textColor="@color/white"
             android:text="Valider"
             android:visibility="gone"
             android:layout_gravity="center_horizontal"/>

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class EvaluationValidationActivity extends AppCompatActivity {
     private EvaluationValidationAdaptater evaluationValidationAdaptater;
     private RecyclerView recycler;
     private TextView textViewMessage;
-
+    private Button backButton;
     private WebServices webServices;
 
     private int idProject;
@@ -44,7 +45,7 @@ public class EvaluationValidationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_evaluation_validation);
 
         textViewMessage = (TextView) findViewById(R.id.text_loading);
-
+        backButton = (Button) findViewById(R.id.button_back);
         Intent intent = getIntent();
         ObjectMapper o = new ObjectMapper();
         try {
@@ -62,6 +63,16 @@ public class EvaluationValidationActivity extends AppCompatActivity {
         evaluationValidationAdaptater = new EvaluationValidationAdaptater(this);
         recycler.setAdapter(evaluationValidationAdaptater);
         evaluationValidationAdaptater.setNotes(noteInfo.getNotes());
+
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EvaluationValidationActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+
+        });
 
         new HttpRequestTask().execute();
     }

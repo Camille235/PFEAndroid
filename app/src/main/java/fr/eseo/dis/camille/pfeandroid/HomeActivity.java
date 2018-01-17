@@ -81,13 +81,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        TextView text = (TextView)findViewById(R.id.textView);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        String username = pref.getString("username", null);
-        text.setText(username);
-
-
-
 
     }
 
