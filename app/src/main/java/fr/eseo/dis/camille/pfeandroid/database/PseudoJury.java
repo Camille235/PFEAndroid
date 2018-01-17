@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "pseudojurys")
 public class PseudoJury {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "idPseudoJury")
     private int idPseudoJury;
@@ -24,11 +24,11 @@ public class PseudoJury {
     @ColumnInfo(name = "passwordPseudoJury")
     private String passwordPseudoJury;
 
-    public PseudoJury(@NonNull int idPseudoJury, @NonNull String namePseudoJury, @NonNull String passwordPseudoJury) {
+    /*public PseudoJury(@NonNull int idPseudoJury, @NonNull String namePseudoJury, @NonNull String passwordPseudoJury) {
         this.idPseudoJury = idPseudoJury;
         this.namePseudoJury = namePseudoJury;
         this.passwordPseudoJury = passwordPseudoJury;
-    }
+    }*/
 
     public PseudoJury(@NonNull String namePseudoJury, @NonNull String passwordPseudoJury) {
         this.namePseudoJury = namePseudoJury;
