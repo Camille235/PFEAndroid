@@ -47,4 +47,12 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    private class GetAllPseudoJurys extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().loadAllPseudoJurys();
+            return null;
+        }
+    }
 }

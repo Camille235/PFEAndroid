@@ -12,7 +12,9 @@ import android.arch.persistence.room.Query;
 @Dao
 public interface PseudoJuryDao {
 
+    @Query("SELECT * FROM pseudojurys")
+    PseudoJury[] loadAllPseudoJurys();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertPseudoJury(PseudoJury pseudoJury);
+    void insertPseudoJury(PseudoJury pseudoJury);
 }
