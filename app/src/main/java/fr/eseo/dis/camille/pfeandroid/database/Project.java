@@ -9,8 +9,7 @@ import android.support.annotation.NonNull;
  * Created by Jérome on 14/01/2018.
  */
 
-@Entity(tableName = "marks",
-        primaryKeys = {"idProject"}
+@Entity(tableName = "projects"
 )
 public class Project {
     @PrimaryKey

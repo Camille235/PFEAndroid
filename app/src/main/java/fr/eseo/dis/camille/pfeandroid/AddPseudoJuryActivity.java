@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import fr.eseo.dis.camille.pfeandroid.bean.User;
 import fr.eseo.dis.camille.pfeandroid.database.NotationDatabase;
 import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
-import fr.eseo.dis.camille.pfeandroid.database.PseudoJuryManager;
 
 public class AddPseudoJuryActivity extends AppCompatActivity {
 

@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
  */
 
 @Entity(tableName = "marks",
-        primaryKeys = {"idMark"},
         foreignKeys = {@ForeignKey(entity=PseudoJury.class, parentColumns = "idPseudoJury",childColumns = "idPseudoJury"),
             @ForeignKey(entity=Project.class, parentColumns = "idProject",childColumns = "idProject")
             }
