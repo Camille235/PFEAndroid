@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
 import fr.eseo.dis.camille.pfeandroid.database.NotationDatabase;
 import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
 
@@ -20,23 +22,27 @@ public class ShowPseudoJurysActivity extends AppCompatActivity {
 
         GetAllPseudoJurys g = new GetAllPseudoJurys();
         g.execute();
-        PseudoJury[] p = g.getListPseudoJurys();
+        List<PseudoJury> p = g.getListPseudoJurys();
 
-        text.setText(p[0].getNamePseudoJury());
+        text.setText(p.get(0).getNamePseudoJury());
     }
 
 
     private class GetAllPseudoJurys extends AsyncTask<Void, Void, Void> {
-        private PseudoJury[] listPseudoJurys;
+        private List<PseudoJury> listPseudoJurys;
 
         @Override
         protected Void doInBackground(Void... params) {
-            listPseudoJurys = NotationDatabase.getDatabase(ShowPseudoJurysActivity.this).pseudoJuryDao().loadAllPseudoJurys();
+            setListPseudoJurys(NotationDatabase.getDatabase(ShowPseudoJurysActivity.this).pseudoJuryDao().loadAllPseudoJurys());
             return null;
         }
 
-        public PseudoJury[] getListPseudoJurys() {
+        public List<PseudoJury> getListPseudoJurys() {
             return listPseudoJurys;
+        }
+
+        public void setListPseudoJurys(List<PseudoJury> listPseudoJurys) {
+            this.listPseudoJurys = listPseudoJurys;
         }
     }
 }
