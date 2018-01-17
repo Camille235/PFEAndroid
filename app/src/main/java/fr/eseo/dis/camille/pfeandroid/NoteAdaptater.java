@@ -56,6 +56,9 @@ public class NoteAdaptater extends RecyclerView.Adapter<NoteAdaptater.NoteViewHo
         Note note = notes.get(position);
 
         holder.studentName.setText(note.getForename() + " " + note.getSurname());
+        if(note.getAvgNote() != null) {
+            holder.studentNoteAverage.setText( "Moyenne : " + note.getAvgNote() );
+        }
         holder.studentNote.setText(note.getMynote() + "");
         holder.buttonMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +113,7 @@ public class NoteAdaptater extends RecyclerView.Adapter<NoteAdaptater.NoteViewHo
         private final View view;
 
         private final TextView studentName;
+        private final TextView studentNoteAverage;
         private final TextView studentNote;
         private final Button buttonLess;
         private final Button buttonMore;
@@ -120,6 +124,7 @@ public class NoteAdaptater extends RecyclerView.Adapter<NoteAdaptater.NoteViewHo
             Log.d("NoteViewHolder", "NoteViewHolder()");
             this.view = view;
             studentName = (TextView) view.findViewById(R.id.student_name);
+            studentNoteAverage = (TextView) view.findViewById(R.id.text_note_average);
             studentNote = (TextView) view.findViewById(R.id.student_note);
             buttonLess = (Button) view.findViewById(R.id.button_less);
             buttonMore = (Button) view.findViewById(R.id.button_more);
