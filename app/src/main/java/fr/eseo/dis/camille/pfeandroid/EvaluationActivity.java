@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import errors.LoginError;
+import errors.WebServiceError;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 import fr.eseo.dis.camille.pfeandroid.dto.note.Note;
 import fr.eseo.dis.camille.pfeandroid.dto.note.NoteInfo;
@@ -145,7 +147,7 @@ public class EvaluationActivity extends AppCompatActivity {
                 NoteInfo noteInfo = webServices.notes(EvaluationActivity.this, pref.getString("username", null), pref.getString("token", null), idProject +"");
                 noteInfoGlobal = noteInfo;
                 return noteInfo;
-            } catch (LoginError e) {
+            } catch (WebServiceError e) {
                 message = e.getMessage();
                 //Log.e("MainActivity", e.getMessage(), e);
             }
@@ -155,15 +157,24 @@ public class EvaluationActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(NoteInfo noteInfo) {
-            if (noteInfo == null) {
+                if (noteInfo == null) {
+                    if ("Invalide Credentials".equals(message)) {
+                        Intent intent = new Intent(EvaluationActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(!"".equals(message)) {
+                        Toast.makeText( EvaluationActivity.this, "Vous n'êtes pas membre du jury ayant la possiblité de noter ce projet.", Toast.LENGTH_SHORT ).show();
+                        onBackPressed();
+                    }
+                }
+                else{
+                    progressDialog.dismiss();
+                    recycler.setAdapter(noteAdapter);
+                    noteAdapter.setNotes(noteInfo.getNotes());
+                    buttonValidation.setVisibility(View.VISIBLE);
+                }
 
-            }
-            else{
-                progressDialog.dismiss();
-                recycler.setAdapter(noteAdapter);
-                noteAdapter.setNotes(noteInfo.getNotes());
-                buttonValidation.setVisibility(View.VISIBLE);
-            }
+
         }
 
     }

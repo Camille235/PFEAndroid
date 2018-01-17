@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -117,7 +118,13 @@ public class JuryDetailsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JuryInfo juryInfo ) {
             if (juryInfo == null) {
-                Toast.makeText(JuryDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+                if ("Invalide Credentials".equals(message)) {
+                    Intent intent = new Intent(JuryDetailsActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(!"".equals(message)) {
+                    Log.e( "JuryDetailsActivity", message );
+                }
             }
             else{
                 Project[] projects = juryInfo.getProjects();

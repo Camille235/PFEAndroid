@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -155,7 +156,13 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap poster) {
             if (poster == null) {
-
+                if ("Invalide Credentials".equals(message)) {
+                    Intent intent = new Intent(ProjectDetailsActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(!"".equals(message)) {
+                    Log.e( "ProjectDetailsActivity", message );
+                }
             }
             else{
                 posterView.setImageBitmap(poster);

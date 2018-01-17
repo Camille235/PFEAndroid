@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,6 +38,9 @@ public class ListProjectActivity extends AppCompatActivity {
 
     private ListProjectAdaptater listProjectAdapter;
 
+
+    TextView messageProject;
+
     RecyclerView recycler;
     SharedPreferences pref;
 
@@ -46,6 +52,8 @@ public class ListProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_project);
         Intent intent = getIntent();
         listProjectStyle = intent.getStringExtra("listProjectStyle");
+
+        messageProject = (TextView) findViewById(R.id.message_project);
 
         NEW_CARD_COUNTER = 3;
         recycler = (RecyclerView) findViewById(R.id.cardList);
@@ -85,11 +93,21 @@ public class ListProjectActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ListProjects listProjects) {
             if (listProjects == null) {
-                Toast.makeText(ListProjectActivity.this, message, Toast.LENGTH_SHORT).show();
+                if ("Invalide Credentials".equals(message)) {
+                    Intent intent = new Intent(ListProjectActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(!"".equals(message)) {
+                    Log.e( "ListProjectActivity", message );
+                }
             }
             else{
-                recycler.setAdapter(listProjectAdapter);
-                listProjectAdapter.setProjects(new ArrayList<>(Arrays.asList(listProjects.getProjects())));
+                if( listProjects.getProjects().length == 0){
+                    messageProject.setVisibility( View.VISIBLE);
+                }else {
+                    recycler.setAdapter( listProjectAdapter );
+                    listProjectAdapter.setProjects( new ArrayList<>( Arrays.asList( listProjects.getProjects() ) ) );
+                }
             }
         }
 

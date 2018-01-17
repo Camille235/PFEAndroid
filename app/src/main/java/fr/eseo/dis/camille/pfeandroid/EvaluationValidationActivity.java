@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 import errors.LoginError;
+import errors.WebServiceError;
 import fr.eseo.dis.camille.pfeandroid.R;
 import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 import fr.eseo.dis.camille.pfeandroid.dto.note.Note;
@@ -82,9 +83,8 @@ public class EvaluationValidationActivity extends AppCompatActivity {
                 }
                 newNoteInfo = webServices.notes(EvaluationValidationActivity.this, pref.getString("username", null), pref.getString("token", null), idProject +"");
                 return newNoteInfo;
-            } catch (LoginError e) {
+            } catch (WebServiceError e) {
                 message = e.getMessage();
-                Log.e("EvaluationValidationActivity", message, e);
             }
 
             return null;
@@ -93,7 +93,13 @@ public class EvaluationValidationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(NoteInfo noteInfo) {
             if (noteInfo == null) {
-
+                if ("Invalide Credentials".equals(message)) {
+                    Intent intent = new Intent(EvaluationValidationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(!"".equals(message)) {
+                    Log.e( "EvaluationValidationActivity", message );
+                }
             }
             else{
                 textViewMessage.setText("Notes envoyées");

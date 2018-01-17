@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import errors.LoginError;
+import errors.WebServiceError;
 import fr.eseo.dis.camille.pfeandroid.dto.login.Login;
 
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
         messageError = (TextView)findViewById(R.id.message_error);
+        messageError.setVisibility(View.INVISIBLE);
         webServices = new WebServices();
         homeActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Login log = webServices.login(MainActivity.this, usernameString, passwordString);;
                 return log;
-            } catch (LoginError e) {
+            } catch (WebServiceError e) {
                 message = e.getMessage();
                 //Log.e("MainActivity", e.getMessage(), e);
             }
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Login login) {
             if (login == null) {
-                messageError.setText(message);
+                messageError.setText("Mauvais identifiants et mots de passe");
                 messageError.setVisibility(View.VISIBLE);
             }
 

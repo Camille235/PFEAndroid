@@ -197,7 +197,7 @@ public class WebServices {
      * @return a Login, containing the token
      * @throws LoginError if the combinaison login/password is incorrect or doesn't exist
      */
-    public static Login login(Context context, String username, String password) throws LoginError{
+    public static Login login(Context context, String username, String password) throws WebServiceError{
 
         String json = retrieve(context, "https://192.168.4.10/www/pfe/webservice.php?q=LOGON&user="+username+"&pass="+password);
         errorHandling(json);

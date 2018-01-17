@@ -8,6 +8,18 @@
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
     tools:context=".ListJuryActivity">
+
+    <TextView
+    android:id="@+id/message_jury"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:visibility="gone"
+    android:textSize="24sp"
+    android:text="Vous n'avez pas de jury"
+    android:textColor="@android:color/black"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardList"
         android:layout_width="match_parent"

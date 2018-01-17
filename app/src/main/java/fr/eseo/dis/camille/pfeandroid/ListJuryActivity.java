@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,6 +31,8 @@ public class ListJuryActivity extends AppCompatActivity {
 
     private ListJuryAdaptater listJuryAdaptater;
 
+    TextView messageJury;
+
     RecyclerView recycler;
     SharedPreferences pref;
 
@@ -40,7 +45,7 @@ public class ListJuryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listJuryStyle = intent.getStringExtra("listJuryStyle");
 
-
+        messageJury = (TextView) findViewById(R.id.message_jury);
 
         NEW_CARD_COUNTER = 3;
         recycler = (RecyclerView) findViewById(R.id.cardList);
@@ -80,11 +85,21 @@ public class ListJuryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ListJuries listJuries) {
             if (listJuries == null) {
-                Toast.makeText(ListJuryActivity.this, message, Toast.LENGTH_SHORT).show();
+                if ("Invalide Credentials".equals(message)) {
+                    Intent intent = new Intent(ListJuryActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(!"".equals(message)) {
+                    Log.e( "ListJuryActivity", message );
+                }
             }
             else{
-                recycler.setAdapter(listJuryAdaptater);
-                listJuryAdaptater.setJurys(new ArrayList<>(Arrays.asList(listJuries.getJuries())));
+                if(listJuries.getJuries().length == 0){
+                    messageJury.setVisibility(View.VISIBLE);
+                }else{
+                    recycler.setAdapter(listJuryAdaptater);
+                    listJuryAdaptater.setJurys(new ArrayList<>(Arrays.asList(listJuries.getJuries())));
+                }
             }
         }
 
