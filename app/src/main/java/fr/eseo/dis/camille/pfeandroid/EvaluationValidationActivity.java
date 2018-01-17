@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,27 +62,29 @@ public class EvaluationValidationActivity extends AppCompatActivity {
         recycler.setAdapter(evaluationValidationAdaptater);
         evaluationValidationAdaptater.setNotes(noteInfo.getNotes());
 
-
-        new HttpRequestTask();
+        new HttpRequestTask().execute();
     }
 
 
     private class HttpRequestTask extends AsyncTask<Void, Void, NoteInfo> {
         @Override
         protected NoteInfo doInBackground(Void... params) {
-            Toast.makeText(EvaluationValidationActivity.this, "coucou", Toast.LENGTH_SHORT).show();
+
             try {
                 pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-                List<Note> listNotes = noteInfo.getNotes();
-                for (Note note : listNotes) {
-                    webServices.newNote(EvaluationValidationActivity.this, pref.getString("username", null),
-                            pref.getString("token", null), idProject + "", note.getUserId() + "", note.getMynote() + "");
-                }
                 NoteInfo newNoteInfo = webServices.notes(EvaluationValidationActivity.this, pref.getString("username", null), pref.getString("token", null), idProject +"");
+                List<Note> listNotes = noteInfo.getNotes();
+                for (int i = 0; i < newNoteInfo.getNotes().size(); i++) {
+                    if (listNotes.get(i).getMynote() != newNoteInfo.getNotes().get(i).getMynote()) {
+                        webServices.newNote( EvaluationValidationActivity.this, pref.getString( "username", null ),
+                                pref.getString( "token", null ), idProject + "", listNotes.get(i).getUserId() + "", listNotes.get(i).getMynote() + "" );
+                    }
+                }
+                newNoteInfo = webServices.notes(EvaluationValidationActivity.this, pref.getString("username", null), pref.getString("token", null), idProject +"");
                 return newNoteInfo;
             } catch (LoginError e) {
                 message = e.getMessage();
-                //Log.e("MainActivity", e.getMessage(), e);
+                Log.e("EvaluationValidationActivity", message, e);
             }
 
             return null;

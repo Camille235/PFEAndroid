@@ -51,8 +51,9 @@ public class EvaluationValidationAdaptater extends RecyclerView.Adapter<Evaluati
 
         holder.studentName.setText(note.getForename() + " " + note.getSurname());
         holder.studentNote.setText("Ma note : " + note.getMynote() + "/20");
-        holder.studentNoteAverage.setText("Note moyenne : " + note.getAvgNote() + "/20");
-
+        if(note.getAvgNote() != null){
+            holder.studentNoteAverage.setText("Note moyenne : " + note.getAvgNote() + "/20");
+        }
     }
 
     @Override
