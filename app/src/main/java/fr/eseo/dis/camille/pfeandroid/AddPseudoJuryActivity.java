@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,9 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
                 usernameString = username.getText().toString();
                 passwordString = password.getText().toString();
                 ps = new PseudoJury(usernameString,passwordString);
+                NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().insertPseudoJury(ps);
+                int test = NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().loadAllPseudoJurys().size();
+                Log.d("Test BDD : ",""+test);
             }
         });
 
