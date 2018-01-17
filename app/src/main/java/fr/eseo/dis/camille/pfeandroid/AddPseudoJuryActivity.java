@@ -17,7 +17,7 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
     EditText password;
     String usernameString;
     String passwordString;
-    PseudoJury ps = new PseudoJury(-1,"Jhon","Doe");
+    PseudoJury ps = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +34,7 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 usernameString = username.getText().toString();
                 passwordString = password.getText().toString();
-                ps.setNamePseudoJury(usernameString);
-                ps.setPasswordPseudoJury(passwordString);
-                AddPseudoJuryTask a = new AddPseudoJuryTask();
-                a.execute();
+                ps = new PseudoJury(usernameString,passwordString);
             }
         });
 

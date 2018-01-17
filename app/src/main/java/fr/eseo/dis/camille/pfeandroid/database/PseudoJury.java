@@ -9,8 +9,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "pseudojurys"
-)
+@Entity(tableName = "pseudojurys")
 public class PseudoJury {
     @PrimaryKey
     @NonNull
@@ -27,6 +26,11 @@ public class PseudoJury {
 
     public PseudoJury(@NonNull int idPseudoJury, @NonNull String namePseudoJury, @NonNull String passwordPseudoJury) {
         this.idPseudoJury = idPseudoJury;
+        this.namePseudoJury = namePseudoJury;
+        this.passwordPseudoJury = passwordPseudoJury;
+    }
+
+    public PseudoJury(@NonNull String namePseudoJury, @NonNull String passwordPseudoJury) {
         this.namePseudoJury = namePseudoJury;
         this.passwordPseudoJury = passwordPseudoJury;
     }
