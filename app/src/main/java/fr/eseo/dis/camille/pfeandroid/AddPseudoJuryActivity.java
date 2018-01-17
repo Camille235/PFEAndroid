@@ -1,6 +1,7 @@
 package fr.eseo.dis.camille.pfeandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.eseo.dis.camille.pfeandroid.database.DatabaseProject;
 import fr.eseo.dis.camille.pfeandroid.database.NotationDatabase;
 import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
+import fr.eseo.dis.camille.pfeandroid.dto.door.Project;
+
+import static java.lang.System.in;
 
 public class AddPseudoJuryActivity extends AppCompatActivity {
 
@@ -19,6 +27,8 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
     String usernameString;
     String passwordString;
     PseudoJury ps = null;
+    String token = "";
+    String userPseudoString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +46,22 @@ public class AddPseudoJuryActivity extends AppCompatActivity {
                 usernameString = username.getText().toString();
                 passwordString = password.getText().toString();
                 ps = new PseudoJury(usernameString,passwordString);
+
+                WebServices service = new WebServices();
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("username", userPseudoString);
+                pref.getString("token",token);
+                List<Project> lsProj = service.porte(AddPseudoJuryActivity.this,userPseudoString,token).getProjects();
+
+                for(Project p : lsProj) {
+                    DatabaseProject dP = new DatabaseProject(p.getTitle(),p.getDescription(),p.getPoster(),ps.getIdPseudoJury());
+                    NotationDatabase.getDatabase(AddPseudoJuryActivity.this).databaseProjectDao().insertProject(dP);
+                }
+
                 NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().insertPseudoJury(ps);
+
+
                 int test = NotationDatabase.getDatabase(AddPseudoJuryActivity.this).pseudoJuryDao().loadAllPseudoJurys().size();
                 Log.d("Test BDD : ",""+test);
             }

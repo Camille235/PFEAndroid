@@ -10,8 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 import errors.LoginError;
 import errors.WebServiceError;
+import fr.eseo.dis.camille.pfeandroid.database.NotationDatabase;
+import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
 import fr.eseo.dis.camille.pfeandroid.dto.login.Login;
 
 
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Button homeActivity = (Button) findViewById(R.id.sign_in_button);
         final Button autoLog = (Button) findViewById(R.id.auto_button);
+        final Button visitor = (Button) findViewById(R.id.visitor_button);
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
         messageError = (TextView)findViewById(R.id.message_error);
@@ -77,6 +82,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        visitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usernameString = username.getText().toString();
+                passwordString = password.getText().toString();
+                List<PseudoJury> lp = NotationDatabase.getDatabase(MainActivity.this).pseudoJuryDao().loadAllPseudoJurys();
+
+                for (PseudoJury p : lp) {
+                    if (usernameString == p.getNamePseudoJury() && passwordString == p.getPasswordPseudoJury()) {
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("username", usernameString);
+                        intent = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+
     }
 
     private class HttpRequestTask extends AsyncTask<Void, Void, Login> {

@@ -1,8 +1,11 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,16 +16,28 @@ import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
 
 public class ShowPseudoJurysActivity extends AppCompatActivity {
 
+
+    RecyclerView recycler;
+    SharedPreferences pref;
+    ShowPseudoJurysAdaptater showPseudoJurys;
+    public static int NEW_CARD_COUNTER;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pseudo_jurys);
 
-        TextView text =(TextView) findViewById(R.id.text_view_database_test);
-
+        recycler = (RecyclerView) findViewById(R.id.recycler_view_pseudos_jurys);
         List<PseudoJury> p = NotationDatabase.getDatabase(ShowPseudoJurysActivity.this).pseudoJuryDao().loadAllPseudoJurys();
 
-        text.setText(p.get(0).getNamePseudoJury());
+        recycler.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(llm);
+        showPseudoJurys = new ShowPseudoJurysAdaptater(this);
+
+        showPseudoJurys.setPseudojurys(p);
+
     }
 
 /*

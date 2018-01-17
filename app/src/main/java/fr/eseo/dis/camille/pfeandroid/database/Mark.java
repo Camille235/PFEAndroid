@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "marks",
         foreignKeys = {@ForeignKey(entity=PseudoJury.class, parentColumns = "idPseudoJury",childColumns = "idPseudoJury"),
-            @ForeignKey(entity=Project.class, parentColumns = "idProject",childColumns = "idProject")
+            @ForeignKey(entity=DatabaseProject.class, parentColumns = "idProject",childColumns = "idProject")
             }
         )
 public class Mark {

@@ -10,13 +10,15 @@ import android.content.Context;
  * Created by Jérome on 10/01/2018.
  */
 
-@Database(entities = {PseudoJury.class, Mark.class, Project.class},
-        version = 3)
+@Database(entities = {PseudoJury.class, Mark.class, DatabaseProject.class},
+        version = 4)
 
 public abstract class NotationDatabase extends RoomDatabase {
     private static NotationDatabase INSTANCE;
 
     public abstract  PseudoJuryDao pseudoJuryDao();
+
+    public abstract DatabaseProjectDao databaseProjectDao();
 
     public static NotationDatabase getDatabase(Context context) {
         if(INSTANCE == null){

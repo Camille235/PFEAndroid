@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "projects"
 )
-public class Project {
+public class DatabaseProject {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "idProject")
@@ -27,13 +27,17 @@ public class Project {
 
     @NonNull
     @ColumnInfo(name = "posterProject")
-    private byte[] posterProject;
+    private String posterProject;
 
-    public Project(@NonNull int idProject, @NonNull String titleProject, @NonNull String descriptionProject, @NonNull byte[] posterProject) {
-        this.idProject = idProject;
+    @NonNull
+    @ColumnInfo(name = "posterProject")
+    private int idPseudoJury;
+
+    public DatabaseProject(@NonNull String titleProject, @NonNull String descriptionProject, @NonNull String posterProject, @NonNull int idPseudoJury) {
         this.titleProject = titleProject;
         this.descriptionProject = descriptionProject;
         this.posterProject = posterProject;
+        this.idPseudoJury = idPseudoJury;
     }
 
     @NonNull
@@ -64,11 +68,21 @@ public class Project {
     }
 
     @NonNull
-    public byte[] getPosterProject() {
+    public String getPosterProject() {
         return posterProject;
     }
 
-    public void setPosterProject(@NonNull byte[] posterProject) {
+    public void setPosterProject(@NonNull String posterProject) {
         this.posterProject = posterProject;
     }
+
+    @NonNull
+    public int getIdPseudoJury() {
+        return idPseudoJury;
+    }
+
+    public void setIdPseudoJury(@NonNull int idPseudoJury) {
+        this.idPseudoJury = idPseudoJury;
+    }
+
 }
