@@ -1,8 +1,13 @@
 package fr.eseo.dis.camille.pfeandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +15,15 @@ import java.util.List;
 import fr.eseo.dis.camille.pfeandroid.database.DatabaseProject;
 import fr.eseo.dis.camille.pfeandroid.database.NotationDatabase;
 import fr.eseo.dis.camille.pfeandroid.database.PseudoJury;
+import fr.eseo.dis.camille.pfeandroid.dto.juries.Project;
 
 public class ListProjectsAsVisitorActivity extends AppCompatActivity {
 
     String username = "";
     private SharedPreferences pref;
+    private ListProjectsAsVisitorAdaptater listProjectAdapter;
 
+    RecyclerView recycler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +49,17 @@ public class ListProjectsAsVisitorActivity extends AppCompatActivity {
                 ldpFinal.add(dp);
             }
         }
+        recycler = (RecyclerView) findViewById(R.id.cardListAsVisitor);
+        recycler.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(llm);
+        listProjectAdapter = new ListProjectsAsVisitorAdaptater(this);
+        listProjectAdapter.setProjects(ldpFinal);
+        recycler.setAdapter( listProjectAdapter );
 
 
     }
+
+
 }
